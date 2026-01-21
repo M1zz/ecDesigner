@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9CA0A7322F20B900004ABF40 /* Aessets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9CA0A7312F20B900004ABF40 /* Aessets.xcassets */; };
 		A1000001000000000000001 /* ecDesignerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000001000000000000001 /* ecDesignerApp.swift */; };
 		A1000002000000000000001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000002000000000000001 /* ContentView.swift */; };
 		A1000003000000000000001 /* ECNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2000003000000000000001 /* ECNode.swift */; };
@@ -28,7 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A3000001000000000000001 /* ecDesigner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ecDesigner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CA0A7312F20B900004ABF40 /* Aessets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Aessets.xcassets; sourceTree = "<group>"; };
 		A2000001000000000000001 /* ecDesignerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ecDesignerApp.swift; sourceTree = "<group>"; };
 		A2000002000000000000001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A2000003000000000000001 /* ECNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECNode.swift; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		A2000016000000000000001 /* CSVExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVExporter.swift; sourceTree = "<group>"; };
 		A2000017000000000000001 /* MilestoneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneView.swift; sourceTree = "<group>"; };
 		A2000018000000000000001 /* ChallengeEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeEditorView.swift; sourceTree = "<group>"; };
+		A3000001000000000000001 /* ecDesigner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ecDesigner.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 		A5000002000000000000001 /* ecDesigner */ = {
 			isa = PBXGroup;
 			children = (
+				9CA0A7312F20B900004ABF40 /* Aessets.xcassets */,
 				A2000001000000000000001 /* ecDesignerApp.swift */,
 				A2000002000000000000001 /* ContentView.swift */,
 				A5000004000000000000001 /* Models */,
@@ -191,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CA0A7322F20B900004ABF40 /* Aessets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
