@@ -8,10 +8,17 @@ class PersistenceManager {
 
     private init() {}
 
-    // Get file URL for projects
+    // Get file URL for projects (stored in Application Support)
     private func getProjectsFileURL() -> URL {
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        return documentsPath.appendingPathComponent("ecDesignerProjects.json")
+        let appSupportPath = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        let appFolder = appSupportPath.appendingPathComponent("ecDesigner")
+
+        // Create directory if it doesn't exist
+        if !FileManager.default.fileExists(atPath: appFolder.path) {
+            try? FileManager.default.createDirectory(at: appFolder, withIntermediateDirectories: true)
+        }
+
+        return appFolder.appendingPathComponent("ecDesignerProjects.json")
     }
 
     // Save all projects
