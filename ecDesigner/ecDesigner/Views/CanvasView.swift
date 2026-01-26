@@ -85,6 +85,35 @@ struct CanvasView: View {
                 .onContinuousHover(perform: handleHover)
                 .onAppear(perform: setupScrollEventMonitor)
                 .onDisappear(perform: cleanupScrollEventMonitor)
+                .contextMenu {
+                    Button(action: {
+                        let adjustedLocation = CGPoint(
+                            x: mouseLocation.x - viewModel.canvasOffset.width,
+                            y: mouseLocation.y - viewModel.canvasOffset.height
+                        )
+                        viewModel.addMilestone(at: adjustedLocation)
+                    }) {
+                        Label("마일스톤 추가", systemImage: "flag.circle")
+                    }
+
+                    Button(action: {
+                        let adjustedLocation = CGPoint(
+                            x: mouseLocation.x - viewModel.canvasOffset.width,
+                            y: mouseLocation.y - viewModel.canvasOffset.height
+                        )
+                        viewModel.addNode(at: adjustedLocation)
+                    }) {
+                        Label("EC 추가", systemImage: "plus.circle")
+                    }
+
+                    Divider()
+
+                    Button(action: {
+                        viewModel.toggleConnectionMode()
+                    }) {
+                        Label(viewModel.isConnectionMode ? "연결 모드 해제" : "연결 모드", systemImage: "link.circle")
+                    }
+                }
         }
     }
 

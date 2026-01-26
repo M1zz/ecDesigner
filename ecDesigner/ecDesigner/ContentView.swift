@@ -15,72 +15,66 @@ struct ContentView: View {
         NavigationSplitView {
             // 사이드바
             VStack(alignment: .leading, spacing: 16) {
-                // Project name and list button
+                // 헤더: 챌린지 이름 (클릭하여 다른 챌린지 선택)
                 HStack {
-                    TextField("Challenge Name", text: Binding(
-                        get: { viewModel.currentProject.name },
-                        set: { viewModel.renameCurrentProject($0) }
-                    ))
-                    .font(.system(size: 17 * viewModel.fontScale, weight: .semibold))
-                    .textFieldStyle(.plain)
-
-                    Button(action: {
-                        showChallengeEditor = true
-                    }) {
-                        Image(systemName: "info.circle")
-                            .font(.system(size: 16 * viewModel.fontScale))
-                    }
-                    .help("Edit Challenge Information")
-
-                    Spacer()
-
-                    Menu {
-                        Button("Import from CSV") {
-                            CSVExporter.importCSVFile { result in
-                                if let result = result {
-                                    viewModel.importFromCSV(result: result)
-                                }
-                            }
-                        }
-
-                        Button("Load Demo Data") {
-                            viewModel.populateWithDummyData()
-                        }
-                    } label: {
-                        Image(systemName: "square.and.arrow.down")
-                            .font(.system(size: 16 * viewModel.fontScale))
-                    }
-                    .menuStyle(.borderlessButton)
-                    .help("Import Curriculum")
-
-                    Menu {
-                        Button("Export as CSV") {
-                            CSVExporter.saveCSVFile(
-                                exploratoryCycle: viewModel.exploratoryCycle,
-                                projectName: viewModel.currentProject.name
-                            )
-                        }
-
-                        Button("Export as Numbers") {
-                            CSVExporter.saveNumbersFile(
-                                exploratoryCycle: viewModel.exploratoryCycle,
-                                projectName: viewModel.currentProject.name
-                            )
-                        }
-                    } label: {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.system(size: 16 * viewModel.fontScale))
-                    }
-                    .menuStyle(.borderlessButton)
-                    .help("Export Curriculum")
-
                     Button(action: {
                         showProjectList = true
                     }) {
-                        Image(systemName: "folder.fill")
-                            .font(.system(size: 16 * viewModel.fontScale))
+                        HStack(spacing: 6) {
+                            Text(viewModel.currentProject.name)
+                                .font(.system(size: 17 * viewModel.fontScale, weight: .semibold))
+                                .lineLimit(1)
+                            Image(systemName: "chevron.down")
+                                .font(.system(size: 12 * viewModel.fontScale))
+                                .foregroundColor(.secondary)
+                        }
                     }
-                    .help("Manage Challenges")
+                    .buttonStyle(.plain)
+                    .help("다른 챌린지 선택")
+
+                    Spacer()
+
+                    // 엘립시스 메뉴 (모든 기능 통합)
+                    Menu {
+                        Button(action: { showChallengeEditor = true }) {
+                            Label("챌린지 정보 수정", systemImage: "info.circle")
+                        }
+
+                        Divider()
+
+                        Menu("Import") {
+                            Button("Import from CSV") {
+                                CSVExporter.importCSVFile { result in
+                                    if let result = result {
+                                        viewModel.importFromCSV(result: result)
+                                    }
+                                }
+                            }
+                            Button("Load Demo Data") {
+                                viewModel.populateWithDummyData()
+                            }
+                        }
+
+                        Menu("Export") {
+                            Button("Export as CSV") {
+                                CSVExporter.saveCSVFile(
+                                    exploratoryCycle: viewModel.exploratoryCycle,
+                                    projectName: viewModel.currentProject.name
+                                )
+                            }
+                            Button("Export as Numbers") {
+                                CSVExporter.saveNumbersFile(
+                                    exploratoryCycle: viewModel.exploratoryCycle,
+                                    projectName: viewModel.currentProject.name
+                                )
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis.circle")
+                            .font(.system(size: 18 * viewModel.fontScale))
+                    }
+                    .menuStyle(.borderlessButton)
+                    .help("더보기")
                 }
                 .padding(.horizontal)
 
@@ -175,84 +169,80 @@ struct ContentView: View {
                     }
                 }
 
-                Divider()
-
-                // 도구 버튼들
-                VStack(alignment: .leading, spacing: 8) {
-                    Button(action: {
-                        viewModel.addMilestone()
-                        if let newMilestone = viewModel.exploratoryCycle.milestones.last {
-                            openMilestoneWindow(milestone: newMilestone)
-                        }
-                    }) {
-                        Label("Add Milestone", systemImage: "flag.circle")
-                            .font(.system(size: 14 * viewModel.fontScale))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 6)
-                            .contentShape(Rectangle())
-                    }
-
-                    Button(action: {
-                        viewModel.addNode(at: CGPoint(x: 200, y: 200))
-                    }) {
-                        Label("Add EC", systemImage: "plus.circle")
-                            .font(.system(size: 14 * viewModel.fontScale))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.vertical, 6)
-                            .contentShape(Rectangle())
-                    }
-
-                    if let selectedId = viewModel.selectedNodeId,
-                       let node = viewModel.getNode(by: selectedId) {
-                        Button(action: {
-                            openNodeWindow(node: node)
-                        }) {
-                            Label("Edit EC", systemImage: "pencil.circle")
-                                .font(.system(size: 14 * viewModel.fontScale))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 6)
-                                .contentShape(Rectangle())
-                        }
-
-                        Button(role: .destructive, action: {
-                            viewModel.deleteNode(selectedId)
-                        }) {
-                            Label("Delete EC", systemImage: "trash")
-                                .font(.system(size: 14 * viewModel.fontScale))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.vertical, 6)
-                                .contentShape(Rectangle())
-                        }
-                    }
-
+                // 선택된 항목 정보 및 연결 모드 상태
+                if viewModel.isConnectionMode || viewModel.selectedNodeId != nil || viewModel.selectedMilestoneId != nil {
                     Divider()
 
-                    // 연결 모드 상태 표시
-                    if viewModel.isConnectionMode {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Label("Connection Mode Active", systemImage: "link.circle.fill")
-                                .font(.system(size: 12 * viewModel.fontScale))
-                                .foregroundColor(.blue)
-                            Text("Drag from EC arrows to connect")
-                                .font(.system(size: 11 * viewModel.fontScale))
-                                .foregroundColor(.secondary)
+                    VStack(alignment: .leading, spacing: 8) {
+                        // 연결 모드 상태 표시
+                        if viewModel.isConnectionMode {
+                            HStack {
+                                Label("연결 모드", systemImage: "link.circle.fill")
+                                    .font(.system(size: 12 * viewModel.fontScale))
+                                    .foregroundColor(.blue)
+                                Spacer()
+                                if viewModel.isConnecting {
+                                    Button("취소") {
+                                        viewModel.cancelConnection()
+                                    }
+                                    .font(.system(size: 11 * viewModel.fontScale))
+                                    .foregroundColor(.red)
+                                }
+                            }
                         }
-                    }
 
-                    if viewModel.isConnecting {
-                        Button(action: {
-                            viewModel.cancelConnection()
-                        }) {
-                            Label("Cancel Connection", systemImage: "xmark.circle")
-                                .font(.system(size: 14 * viewModel.fontScale))
+                        // 선택된 노드 정보
+                        if let selectedId = viewModel.selectedNodeId,
+                           let node = viewModel.getNode(by: selectedId) {
+                            HStack {
+                                Text("선택: EC #\(node.sequenceNumber + 1)")
+                                    .font(.system(size: 12 * viewModel.fontScale))
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                                Button("수정") {
+                                    openNodeWindow(node: node)
+                                }
+                                .font(.system(size: 11 * viewModel.fontScale))
+                            }
                         }
-                        .foregroundColor(.red)
+
+                        // 선택된 마일스톤 정보
+                        if let selectedId = viewModel.selectedMilestoneId,
+                           let milestone = viewModel.getMilestone(by: selectedId) {
+                            HStack {
+                                Text("선택: \(milestone.title.isEmpty ? "Milestone #\(milestone.sequenceNumber + 1)" : milestone.title)")
+                                    .font(.system(size: 12 * viewModel.fontScale))
+                                    .foregroundColor(.secondary)
+                                    .lineLimit(1)
+                                Spacer()
+                                Button("수정") {
+                                    openMilestoneWindow(milestone: milestone)
+                                }
+                                .font(.system(size: 11 * viewModel.fontScale))
+                            }
+                        }
                     }
+                    .padding(.horizontal)
+                    .padding(.bottom, 8)
                 }
-                .padding(.horizontal)
-                .padding(.bottom)
 
                 Spacer()
+            }
+            .contextMenu {
+                Button(action: {
+                    viewModel.addMilestone()
+                    if let newMilestone = viewModel.exploratoryCycle.milestones.last {
+                        openMilestoneWindow(milestone: newMilestone)
+                    }
+                }) {
+                    Label("마일스톤 추가", systemImage: "flag.circle")
+                }
+
+                Button(action: {
+                    viewModel.addNode(at: CGPoint(x: 300, y: 300))
+                }) {
+                    Label("EC 추가", systemImage: "plus.circle")
+                }
             }
             .frame(minWidth: 350, idealWidth: 400, maxWidth: 500)
         } detail: {
