@@ -80,17 +80,37 @@ struct ContentView: View {
 
                 Divider()
 
-                // Milestones 목록
+                // 계층 구조 (Milestone > EC)
                 List {
-                    Section("Milestones (Goals)") {
-                        ForEach(viewModel.exploratoryCycle.getOrderedMilestones()) { milestone in
+                    // 마일스톤별 EC 계층 구조
+                    ForEach(viewModel.exploratoryCycle.getOrderedMilestones()) { milestone in
+                        let linkedECs = viewModel.exploratoryCycle.nodes
+                            .filter { $0.milestoneId == milestone.id }
+                            .sorted { $0.sequenceNumber < $1.sequenceNumber }
+
+                        DisclosureGroup {
+                            // 해당 마일스톤에 연결된 EC들
+                            ForEach(linkedECs) { node in
+                                ecRowView(node: node)
+                                    .padding(.leading, 8)
+                            }
+
+                            // EC가 없을 경우 안내 메시지
+                            if linkedECs.isEmpty {
+                                Text("연결된 EC가 없습니다")
+                                    .font(.system(size: 11 * viewModel.fontScale))
+                                    .foregroundColor(.secondary)
+                                    .padding(.leading, 8)
+                                    .padding(.vertical, 4)
+                            }
+                        } label: {
                             Button(action: {
                                 openMilestoneWindow(milestone: milestone)
                             }) {
                                 HStack {
                                     Image(systemName: "flag.fill")
                                         .font(.system(size: 12 * viewModel.fontScale))
-                                        .foregroundColor(.orange)
+                                        .foregroundColor(milestone.phase?.color ?? .orange)
 
                                     VStack(alignment: .leading) {
                                         if !milestone.title.isEmpty {
@@ -105,66 +125,35 @@ struct ContentView: View {
                                     }
 
                                     Spacer()
+
+                                    // EC 카운트 표시
+                                    if !linkedECs.isEmpty {
+                                        Text("\(linkedECs.count)")
+                                            .font(.system(size: 10 * viewModel.fontScale))
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal, 6)
+                                            .padding(.vertical, 2)
+                                            .background(Color.blue.opacity(0.7))
+                                            .cornerRadius(8)
+                                    }
                                 }
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 4)
+                                .padding(.vertical, 6)
                                 .contentShape(Rectangle())
                             }
                             .buttonStyle(.plain)
                         }
                     }
 
-                    Section("Exploratory Cycles (Time Sequence)") {
-                        ForEach(viewModel.exploratoryCycle.getOrderedNodes()) { node in
-                            Button(action: {
-                                openNodeWindow(node: node)
-                            }) {
-                                HStack {
-                                    Text("#\(node.sequenceNumber + 1)")
-                                        .font(.system(size: 12 * viewModel.fontScale, weight: .bold))
-                                        .foregroundColor(.white)
-                                        .padding(4)
-                                        .background(Color.blue)
-                                        .cornerRadius(4)
+                    // 연결되지 않은 EC들 (Unlinked)
+                    let unlinkedECs = viewModel.exploratoryCycle.nodes
+                        .filter { $0.milestoneId == nil }
+                        .sorted { $0.sequenceNumber < $1.sequenceNumber }
 
-                                    VStack(alignment: .leading, spacing: 2) {
-                                        if !node.guidingQuestions.isEmpty {
-                                            Text(node.guidingQuestions)
-                                                .font(.system(size: 12 * viewModel.fontScale))
-                                                .lineLimit(1)
-                                        } else {
-                                            Text("Empty EC")
-                                                .font(.system(size: 12 * viewModel.fontScale))
-                                                .foregroundColor(.secondary)
-                                        }
-
-                                        // Show linked milestone
-                                        if let milestoneId = node.milestoneId,
-                                           let milestone = viewModel.exploratoryCycle.milestones.first(where: { $0.id == milestoneId }) {
-                                            HStack(spacing: 2) {
-                                                Image(systemName: "target")
-                                                    .font(.system(size: 8 * viewModel.fontScale))
-                                                    .foregroundColor(.orange)
-                                                Text(milestone.title.isEmpty ? "Milestone #\(milestone.sequenceNumber + 1)" : milestone.title)
-                                                    .font(.system(size: 9 * viewModel.fontScale))
-                                                    .foregroundColor(.orange)
-                                                    .lineLimit(1)
-                                            }
-                                        }
-                                    }
-
-                                    Spacer()
-
-                                    if viewModel.selectedNodeId == node.id {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .foregroundColor(.blue)
-                                    }
-                                }
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 4)
-                                .contentShape(Rectangle())
+                    if !unlinkedECs.isEmpty {
+                        Section("미연결 EC") {
+                            ForEach(unlinkedECs) { node in
+                                ecRowView(node: node)
                             }
-                            .buttonStyle(.plain)
                         }
                     }
                 }
@@ -367,6 +356,45 @@ struct ContentView: View {
                 NSEvent.removeMonitor(monitor)
             }
         }
+    }
+
+    @ViewBuilder
+    private func ecRowView(node: ECNode) -> some View {
+        Button(action: {
+            openNodeWindow(node: node)
+        }) {
+            HStack {
+                Text("#\(node.sequenceNumber + 1)")
+                    .font(.system(size: 10 * viewModel.fontScale, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(3)
+                    .background(Color.blue)
+                    .cornerRadius(3)
+
+                VStack(alignment: .leading, spacing: 1) {
+                    if !node.guidingQuestions.isEmpty {
+                        Text(node.guidingQuestions)
+                            .font(.system(size: 11 * viewModel.fontScale))
+                            .lineLimit(1)
+                    } else {
+                        Text("Empty EC")
+                            .font(.system(size: 11 * viewModel.fontScale))
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                Spacer()
+
+                if viewModel.selectedNodeId == node.id {
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 12 * viewModel.fontScale))
+                        .foregroundColor(.blue)
+                }
+            }
+            .padding(.vertical, 4)
+            .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
     }
 
     private func openMilestoneWindow(milestone: Milestone) {
