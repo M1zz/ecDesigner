@@ -167,6 +167,7 @@ struct NodeView: View {
     let onConnectionEnd: (CGPoint) -> Void
 
     @State private var isDragging = false
+    @State private var dragOffset: CGSize = .zero
 
     private let donutSize: CGFloat = 120
     private let tapAreaSize: CGFloat = 200  // Much larger tap area for easier selection
@@ -245,11 +246,24 @@ struct NodeView: View {
             .gesture(
                 isConnectionMode ? nil : DragGesture(coordinateSpace: .named("canvas"))
                     .onChanged { value in
-                        isDragging = true
-                        onDrag(value.location)
+                        if !isDragging {
+                            isDragging = true
+                            // 드래그 시작 시 마우스와 객체 중심 간의 오프셋 저장
+                            dragOffset = CGSize(
+                                width: value.startLocation.x - node.position.x,
+                                height: value.startLocation.y - node.position.y
+                            )
+                        }
+                        // 오프셋을 적용하여 객체가 점프하지 않도록 함
+                        let newPosition = CGPoint(
+                            x: value.location.x - dragOffset.width,
+                            y: value.location.y - dragOffset.height
+                        )
+                        onDrag(newPosition)
                     }
                     .onEnded { _ in
                         isDragging = false
+                        dragOffset = .zero
                     }
             )
             .onTapGesture(count: 2) {

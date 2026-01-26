@@ -278,37 +278,59 @@ struct CanvasView: View {
             milestoneConnectionLine(from: orderedMilestones[index], to: orderedMilestones[index + 1])
         }
 
-        // 마일스톤-EC 연결선들 및 같은 마일스톤 내 EC 간 연결
-        ForEach(viewModel.exploratoryCycle.milestones) { milestone in
-            ecConnectionLines(for: milestone)
+        // EC가 마일스톤 내부에 포함되므로 별도 연결선 불필요
+    }
+
+    // 마일스톤 컨테이너 크기 계산 (MilestoneView와 동일한 로직)
+    private func milestoneContainerSize(for milestone: Milestone) -> CGSize {
+        let linkedECCount = viewModel.exploratoryCycle.nodes.filter { $0.milestoneId == milestone.id }.count
+        let ecNodeSize: CGFloat = 80
+        let ecSpacing: CGFloat = 24
+        let headerHeight: CGFloat = 90
+        let containerPadding: CGFloat = 20
+
+        let ecCount = max(linkedECCount, 1)
+        let columns = min(ecCount, 3)
+        let width = max(340, CGFloat(columns) * (ecNodeSize + ecSpacing) + containerPadding * 2)
+
+        let height: CGFloat
+        if linkedECCount == 0 {
+            height = headerHeight + 80
+        } else {
+            let rows = ceil(Double(linkedECCount) / 3.0)
+            height = headerHeight + CGFloat(rows) * (ecNodeSize + ecSpacing) + containerPadding + 10
         }
+
+        return CGSize(width: width, height: height)
     }
 
     @ViewBuilder
     private func challengeToMilestoneConnection(to milestone: Milestone) -> some View {
         let challengePosition = CGPoint(x: 100, y: 100)
+        let milestoneSize = milestoneContainerSize(for: milestone)
 
         Path { path in
-            // 챌린지 카드 우측 하단 (280 width, 약 150 height)
+            // 챌린지 카드 우측 (280 width, 약 150 height)
             let startPoint = CGPoint(
                 x: challengePosition.x + 140 + viewModel.canvasOffset.width,
-                y: challengePosition.y + 75 + viewModel.canvasOffset.height
+                y: challengePosition.y + viewModel.canvasOffset.height
             )
+            // 마일스톤 상단 가장자리
             let endPoint = CGPoint(
                 x: milestone.position.x + viewModel.canvasOffset.width,
-                y: milestone.position.y - 20 + viewModel.canvasOffset.height
+                y: milestone.position.y - milestoneSize.height / 2 + viewModel.canvasOffset.height
             )
 
             path.move(to: startPoint)
 
             // Curved line
             let controlPoint1 = CGPoint(
-                x: startPoint.x + (endPoint.x - startPoint.x) * 0.3,
+                x: startPoint.x + (endPoint.x - startPoint.x) * 0.5,
                 y: startPoint.y
             )
             let controlPoint2 = CGPoint(
-                x: startPoint.x + (endPoint.x - startPoint.x) * 0.7,
-                y: endPoint.y
+                x: endPoint.x,
+                y: startPoint.y + (endPoint.y - startPoint.y) * 0.5
             )
 
             path.addCurve(to: endPoint, control1: controlPoint1, control2: controlPoint2)
@@ -319,11 +341,12 @@ struct CanvasView: View {
         )
 
         // Arrow head
+        let milestoneSize2 = milestoneContainerSize(for: milestone)
         Path { path in
             let arrowSize: CGFloat = 10
             let arrowEndPoint = CGPoint(
                 x: milestone.position.x + viewModel.canvasOffset.width,
-                y: milestone.position.y - 20 + viewModel.canvasOffset.height
+                y: milestone.position.y - milestoneSize2.height / 2 + viewModel.canvasOffset.height
             )
 
             path.move(to: arrowEndPoint)
@@ -339,25 +362,30 @@ struct CanvasView: View {
 
     @ViewBuilder
     private func milestoneConnectionLine(from: Milestone, to: Milestone) -> some View {
+        let fromSize = milestoneContainerSize(for: from)
+        let toSize = milestoneContainerSize(for: to)
+
         Path { path in
+            // from 마일스톤 하단 가장자리
             let startPoint = CGPoint(
                 x: from.position.x + viewModel.canvasOffset.width,
-                y: from.position.y + 50 + viewModel.canvasOffset.height
+                y: from.position.y + fromSize.height / 2 + viewModel.canvasOffset.height
             )
+            // to 마일스톤 상단 가장자리
             let endPoint = CGPoint(
                 x: to.position.x + viewModel.canvasOffset.width,
-                y: to.position.y - 20 + viewModel.canvasOffset.height
+                y: to.position.y - toSize.height / 2 + viewModel.canvasOffset.height
             )
 
             path.move(to: startPoint)
 
             let controlPoint1 = CGPoint(
                 x: startPoint.x,
-                y: startPoint.y + (endPoint.y - startPoint.y) * 0.3
+                y: startPoint.y + (endPoint.y - startPoint.y) * 0.4
             )
             let controlPoint2 = CGPoint(
                 x: endPoint.x,
-                y: startPoint.y + (endPoint.y - startPoint.y) * 0.7
+                y: startPoint.y + (endPoint.y - startPoint.y) * 0.6
             )
 
             path.addCurve(to: endPoint, control1: controlPoint1, control2: controlPoint2)
@@ -372,7 +400,7 @@ struct CanvasView: View {
             let arrowSize: CGFloat = 10
             let arrowEndPoint = CGPoint(
                 x: to.position.x + viewModel.canvasOffset.width,
-                y: to.position.y - 20 + viewModel.canvasOffset.height
+                y: to.position.y - toSize.height / 2 + viewModel.canvasOffset.height
             )
 
             path.move(to: arrowEndPoint)
@@ -441,12 +469,13 @@ struct CanvasView: View {
     @ViewBuilder
     private var milestonesView: some View {
         ForEach(viewModel.exploratoryCycle.milestones) { milestone in
-            let linkedECCount = viewModel.exploratoryCycle.nodes.filter { $0.milestoneId == milestone.id }.count
+            let linkedECs = viewModel.exploratoryCycle.nodes.filter { $0.milestoneId == milestone.id }
             MilestoneView(
                 milestone: milestone,
+                linkedECs: linkedECs,
                 isSelected: viewModel.selectedMilestoneId == milestone.id,
+                selectedNodeId: viewModel.selectedNodeId,
                 fontScale: viewModel.fontScale,
-                linkedECCount: linkedECCount,
                 onTap: {
                     viewModel.selectedMilestoneId = milestone.id
                     viewModel.selectedNodeId = nil
@@ -460,6 +489,20 @@ struct CanvasView: View {
                         y: location.y - viewModel.canvasOffset.height
                     )
                     viewModel.moveMilestone(milestone.id, to: adjustedLocation)
+                },
+                onNodeTap: { node in
+                    viewModel.selectedNodeId = node.id
+                    viewModel.selectedMilestoneId = nil
+                },
+                onNodeDoubleClick: { node in
+                    onNodeEdit(node)
+                },
+                onNodeDrag: { node, location in
+                    let adjustedLocation = CGPoint(
+                        x: location.x - viewModel.canvasOffset.width,
+                        y: location.y - viewModel.canvasOffset.height
+                    )
+                    viewModel.moveNode(node.id, to: adjustedLocation)
                 }
             )
             .offset(x: viewModel.canvasOffset.width, y: viewModel.canvasOffset.height)
@@ -468,7 +511,8 @@ struct CanvasView: View {
 
     @ViewBuilder
     private var nodesView: some View {
-        ForEach(viewModel.exploratoryCycle.nodes) { node in
+        // 마일스톤에 연결되지 않은 EC만 표시 (연결된 EC는 마일스톤 내부에서 표시됨)
+        ForEach(viewModel.exploratoryCycle.nodes.filter { $0.milestoneId == nil }) { node in
             NodeView(
                 node: node,
                 isSelected: viewModel.selectedNodeId == node.id,
