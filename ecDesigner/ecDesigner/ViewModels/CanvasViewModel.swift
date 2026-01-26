@@ -19,6 +19,9 @@ class CanvasViewModel: ObservableObject {
     @Published var connectionStartDirection: AnchorDirection?
     @Published var connectionEndPoint: CGPoint?
 
+    // 스냅그리드 설정 (8pt 단위)
+    let snapGridSize: CGFloat = 8.0
+
     private var autoSaveTimer: Timer?
 
     // MARK: - Undo System
@@ -93,13 +96,22 @@ class CanvasViewModel: ObservableObject {
     func moveNode(_ nodeId: UUID, to position: CGPoint) {
         if let index = exploratoryCycle.nodes.firstIndex(where: { $0.id == nodeId }) {
             let oldPosition = exploratoryCycle.nodes[index].position
-            exploratoryCycle.nodes[index].position = position
+            let snappedPosition = snapToGrid(position)
+            exploratoryCycle.nodes[index].position = snappedPosition
 
             // Record undo action (only if position actually changed)
-            if oldPosition != position {
-                recordUndo(.moveNode(nodeId: nodeId, oldPosition: oldPosition, newPosition: position))
+            if oldPosition != snappedPosition {
+                recordUndo(.moveNode(nodeId: nodeId, oldPosition: oldPosition, newPosition: snappedPosition))
             }
         }
+    }
+
+    // 스냅그리드에 맞춰 위치 조정
+    private func snapToGrid(_ point: CGPoint) -> CGPoint {
+        return CGPoint(
+            x: round(point.x / snapGridSize) * snapGridSize,
+            y: round(point.y / snapGridSize) * snapGridSize
+        )
     }
 
     func toggleConnectionMode() {
@@ -264,11 +276,12 @@ class CanvasViewModel: ObservableObject {
     func moveMilestone(_ milestoneId: UUID, to position: CGPoint) {
         if let index = exploratoryCycle.milestones.firstIndex(where: { $0.id == milestoneId }) {
             let oldPosition = exploratoryCycle.milestones[index].position
-            exploratoryCycle.milestones[index].position = position
+            let snappedPosition = snapToGrid(position)
+            exploratoryCycle.milestones[index].position = snappedPosition
 
             // Record undo action (only if position actually changed)
-            if oldPosition != position {
-                recordUndo(.moveMilestone(milestoneId: milestoneId, oldPosition: oldPosition, newPosition: position))
+            if oldPosition != snappedPosition {
+                recordUndo(.moveMilestone(milestoneId: milestoneId, oldPosition: oldPosition, newPosition: snappedPosition))
             }
         }
     }

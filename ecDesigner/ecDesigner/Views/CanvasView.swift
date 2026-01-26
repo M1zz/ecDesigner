@@ -457,28 +457,9 @@ struct CanvasView: View {
 }
 
 struct GridBackground: View {
-    let gridSize: CGFloat = 20
-
     var body: some View {
-        GeometryReader { geometry in
-            Path { path in
-                let width = geometry.size.width
-                let height = geometry.size.height
-
-                // 세로선
-                for x in stride(from: 0, to: width, by: gridSize) {
-                    path.move(to: CGPoint(x: x, y: 0))
-                    path.addLine(to: CGPoint(x: x, y: height))
-                }
-
-                // 가로선
-                for y in stride(from: 0, to: height, by: gridSize) {
-                    path.move(to: CGPoint(x: 0, y: y))
-                    path.addLine(to: CGPoint(x: width, y: y))
-                }
-            }
-            .stroke(Color.gray.opacity(0.2), lineWidth: 0.5)
-        }
+        // 깔끔한 흰 배경 (그리드 제거, 스냅 기능은 ViewModel에서 처리)
+        Color.white
     }
 }
 
