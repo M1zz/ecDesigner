@@ -245,6 +245,13 @@ struct ContentView: View {
                 }
             }
             .frame(minWidth: 350, idealWidth: 400, maxWidth: 500)
+            .background(Color(NSColor.windowBackgroundColor))
+            .overlay(
+                Rectangle()
+                    .frame(width: 1)
+                    .foregroundColor(Color(NSColor.separatorColor)),
+                alignment: .trailing
+            )
         } detail: {
             // 메인 캔버스
             CanvasView(
