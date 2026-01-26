@@ -11,13 +11,57 @@ struct CanvasView: View {
     @State private var isDraggingNode: Bool = false
     @State private var scrollEventMonitor: Any?
 
+    @State private var showTips: Bool = true
+
     var body: some View {
         GeometryReader { _ in
-            ZStack(alignment: .bottomTrailing) {
-                canvasLayer
-                buttonLayer
+            VStack(spacing: 0) {
+                ZStack(alignment: .bottomTrailing) {
+                    canvasLayer
+                    buttonLayer
+                }
+
+                // 하단 Tips 영역
+                if showTips {
+                    tipsView
+                }
             }
         }
+    }
+
+    private var tipsView: some View {
+        HStack {
+            Image(systemName: "lightbulb.fill")
+                .foregroundColor(.yellow)
+                .font(.system(size: 14 * viewModel.fontScale))
+
+            if viewModel.isConnectionMode {
+                Text("연결 모드: EC 화살표를 드래그하여 연결하세요")
+            } else {
+                Text("더블클릭으로 EC 추가 • 2손가락 스크롤로 이동 • 드래그로 노드 이동")
+            }
+
+            Spacer()
+
+            Button(action: { showTips = false }) {
+                Image(systemName: "xmark")
+                    .font(.system(size: 12 * viewModel.fontScale))
+                    .foregroundColor(.secondary)
+            }
+            .buttonStyle(.plain)
+            .help("Tips 닫기")
+        }
+        .font(.system(size: 12 * viewModel.fontScale))
+        .foregroundColor(.secondary)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(Color(NSColor.windowBackgroundColor))
+        .overlay(
+            Rectangle()
+                .frame(height: 1)
+                .foregroundColor(Color.gray.opacity(0.2)),
+            alignment: .top
+        )
     }
 
     private var canvasLayer: some View {

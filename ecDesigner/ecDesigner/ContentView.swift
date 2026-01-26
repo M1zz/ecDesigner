@@ -268,18 +268,6 @@ struct ContentView: View {
             )
                 .toolbar {
                     ToolbarItemGroup(placement: .automatic) {
-                        if viewModel.isConnectionMode {
-                            Text("Connection mode: Drag EC arrows to connect")
-                                .font(.system(size: 12 * viewModel.fontScale))
-                                .foregroundColor(.blue)
-                        } else {
-                            Text("Double-click to add EC • 2-finger scroll or drag to pan")
-                                .font(.system(size: 12 * viewModel.fontScale))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Spacer()
-
                         // Canvas controls
                         HStack(spacing: 8) {
                             Button(action: { viewModel.resetCanvasPosition() }) {
