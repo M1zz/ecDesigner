@@ -66,15 +66,48 @@ class CanvasViewModel: ObservableObject {
 
     func addNode(at position: CGPoint) {
         let sequenceNumber = exploratoryCycle.nodes.count
+
+        // 가장 가까운 마일스톤 찾기
+        let nearestMilestone = findNearestMilestone(to: position)
+
+        // 마일스톤이 있으면 그 옆에 배치
+        var finalPosition = position
+        if let milestone = nearestMilestone {
+            let linkedECCount = exploratoryCycle.nodes.filter { $0.milestoneId == milestone.id }.count
+            finalPosition = CGPoint(
+                x: milestone.position.x + 250 + CGFloat(linkedECCount) * 180,
+                y: milestone.position.y
+            )
+        }
+
         let newNode = ECNode(
-            position: position,
-            sequenceNumber: sequenceNumber
+            position: finalPosition,
+            sequenceNumber: sequenceNumber,
+            milestoneId: nearestMilestone?.id
         )
         exploratoryCycle.addNode(newNode)
         selectedNodeId = newNode.id
 
         // Record undo action
         recordUndo(.addNode(newNode))
+    }
+
+    // 가장 가까운 마일스톤 찾기
+    private func findNearestMilestone(to position: CGPoint) -> Milestone? {
+        guard !exploratoryCycle.milestones.isEmpty else { return nil }
+
+        // 선택된 마일스톤이 있으면 그것을 사용
+        if let selectedId = selectedMilestoneId,
+           let selected = exploratoryCycle.milestones.first(where: { $0.id == selectedId }) {
+            return selected
+        }
+
+        // 없으면 가장 가까운 마일스톤 찾기
+        return exploratoryCycle.milestones.min(by: { m1, m2 in
+            let d1 = sqrt(pow(m1.position.x - position.x, 2) + pow(m1.position.y - position.y, 2))
+            let d2 = sqrt(pow(m2.position.x - position.x, 2) + pow(m2.position.y - position.y, 2))
+            return d1 < d2
+        })
     }
 
     func updateNode(_ node: ECNode) {
