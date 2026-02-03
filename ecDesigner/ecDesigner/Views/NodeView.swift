@@ -41,69 +41,6 @@ struct DonutSegmentShape: Shape {
     }
 }
 
-// EC 구성 요소별 섹션 정보
-// "The synthesis leads to or represents a milestone"
-enum ECSection: CaseIterable, Hashable {
-    case guidingQuestions    // GQ - 9시~12시 (What needs to be learned?)
-    case guidingActivities   // GA - 12시~3시 (How will we learn it?)
-    case findings            // Fi - 3시~6시 (What did we learn?)
-    case synthesis           // Mi - 6시~9시 (Synthesis → Milestone)
-
-    var startAngle: Angle {
-        switch self {
-        case .guidingQuestions: return .degrees(180)  // 9시
-        case .guidingActivities: return .degrees(-90) // 12시
-        case .findings: return .degrees(0)            // 3시
-        case .synthesis: return .degrees(90)          // 6시
-        }
-    }
-
-    var endAngle: Angle {
-        switch self {
-        case .guidingQuestions: return .degrees(-90)  // 12시
-        case .guidingActivities: return .degrees(0)   // 3시
-        case .findings: return .degrees(90)           // 6시
-        case .synthesis: return .degrees(180)         // 9시
-        }
-    }
-
-    var color: Color {
-        switch self {
-        case .guidingQuestions: return .blue
-        case .guidingActivities: return .green
-        case .findings: return .yellow
-        case .synthesis: return .purple
-        }
-    }
-
-    var label: String {
-        switch self {
-        case .guidingQuestions: return "GQ"
-        case .guidingActivities: return "GA"
-        case .findings: return "Fi"
-        case .synthesis: return "Mi"  // Synthesis leads to/represents Milestone
-        }
-    }
-
-    var labelPosition: Angle {
-        switch self {
-        case .guidingQuestions: return .degrees(-135)  // 9시~12시 중앙
-        case .guidingActivities: return .degrees(-45)  // 12시~3시 중앙
-        case .findings: return .degrees(45)            // 3시~6시 중앙
-        case .synthesis: return .degrees(135)          // 6시~9시 중앙
-        }
-    }
-
-    func isFilled(for node: ECNode) -> Bool {
-        switch self {
-        case .guidingQuestions: return !node.guidingQuestions.isEmpty
-        case .guidingActivities: return !node.guidingActivities.isEmpty
-        case .findings: return !node.findings.isEmpty
-        case .synthesis: return !node.synthesis.isEmpty
-        }
-    }
-}
-
 struct ConnectionAnchor: View {
     let direction: AnchorDirection
     let isActive: Bool
@@ -165,6 +102,7 @@ struct NodeView: View {
     let onConnectionStart: (AnchorDirection) -> Void
     let onConnectionDrag: (CGPoint) -> Void
     let onConnectionEnd: (CGPoint) -> Void
+    let onDelete: () -> Void
 
     @State private var isDragging = false
     @State private var dragOffset: CGSize = .zero
@@ -176,128 +114,168 @@ struct NodeView: View {
 
     var body: some View {
         ZStack {
-            // 도넛 모양의 EC 노드
-            ZStack {
-                // 배경 원 (선택 표시용)
-                Circle()
-                    .fill(Color.clear)
-                    .frame(width: donutSize, height: donutSize)
-                    .overlay(
-                        Circle()
-                            .stroke(isSelected ? Color.blue : Color.gray.opacity(0.3), lineWidth: isSelected ? 3 : 1)
-                    )
+            donutNodeView
+                .gesture(dragGesture)
+                .onTapGesture(count: 2, perform: handleDoubleTap)
+                .onTapGesture(perform: handleTap)
 
-                // 4개의 도넛 섹션
-                ForEach(ECSection.allCases, id: \.self) { section in
-                    DonutSegmentShape(
-                        startAngle: section.startAngle,
-                        endAngle: section.endAngle,
-                        innerRadius: donutSize * innerRadiusRatio / 2,
-                        outerRadius: donutSize * outerRadiusRatio / 2
-                    )
-                    .fill(section.isFilled(for: node) ? section.color : Color.gray.opacity(0.2))
-                    .overlay(
-                        DonutSegmentShape(
-                            startAngle: section.startAngle,
-                            endAngle: section.endAngle,
-                            innerRadius: donutSize * innerRadiusRatio / 2,
-                            outerRadius: donutSize * outerRadiusRatio / 2
-                        )
-                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                    )
-                }
-
-                // 중앙에 시퀀스 번호 및 기간
-                VStack(spacing: 2) {
-                    Text("EC")
-                        .font(.system(size: 10 * fontScale))
-                        .foregroundColor(.secondary)
-                    Text("#\(node.sequenceNumber + 1)")
-                        .font(.system(size: 16 * fontScale, weight: .bold))
-                        .foregroundColor(.primary)
-
-                    if !node.duration.isEmpty {
-                        Text(node.duration)
-                            .font(.system(size: 8 * fontScale))
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                    }
-
-                    // Show target icon if linked to milestone
-                    if node.milestoneId != nil {
-                        Image(systemName: "target")
-                            .font(.system(size: 10 * fontScale))
-                            .foregroundColor(.orange)
-                    }
-                }
-
-                // 각 섹션 라벨
-                ForEach(ECSection.allCases, id: \.self) { section in
-                    Text(section.label)
-                        .font(.system(size: 12 * fontScale, weight: .bold))
-                        .foregroundColor(.white)
-                        .offset(labelOffset(for: section))
-                }
-            }
-            .frame(width: donutSize, height: donutSize)
-            .shadow(color: isSelected ? .blue.opacity(0.3) : .gray.opacity(0.2), radius: isSelected ? 8 : 4)
-            .frame(width: tapAreaSize, height: tapAreaSize)
-            .contentShape(Circle())
-            .gesture(
-                isConnectionMode ? nil : DragGesture(coordinateSpace: .named("canvas"))
-                    .onChanged { value in
-                        if !isDragging {
-                            isDragging = true
-                            // 드래그 시작 시 마우스와 객체 중심 간의 오프셋 저장
-                            dragOffset = CGSize(
-                                width: value.startLocation.x - node.position.x,
-                                height: value.startLocation.y - node.position.y
-                            )
-                        }
-                        // 오프셋을 적용하여 객체가 점프하지 않도록 함
-                        let newPosition = CGPoint(
-                            x: value.location.x - dragOffset.width,
-                            y: value.location.y - dragOffset.height
-                        )
-                        onDrag(newPosition)
-                    }
-                    .onEnded { _ in
-                        isDragging = false
-                        dragOffset = .zero
-                    }
-            )
-            .onTapGesture(count: 2) {
-                // 더블클릭으로 편집
-                if !isConnectionMode {
-                    onDoubleClick()
-                }
-            }
-            .onTapGesture {
-                if !isConnectionMode {
-                    onTap()
-                }
-            }
-
-            // 연결 모드일 때만 표시되는 네 방향 화살표
             if isConnectionMode {
-                ForEach([AnchorDirection.top, .bottom, .left, .right], id: \.self) { direction in
-                    ConnectionAnchor(
-                        direction: direction,
-                        isActive: false,
-                        onDragStart: {
-                            onConnectionStart(direction)
-                        },
-                        onDragChanged: { location in
-                            onConnectionDrag(location)
-                        },
-                        onDragEnd: { location in
-                            onConnectionEnd(location)
-                        }
-                    )
-                }
+                connectionAnchors
+            }
+        }
+        .contextMenu {
+            Button(action: onDoubleClick) {
+                Label("Edit EC", systemImage: "pencil")
+            }
+            Divider()
+            Button(role: .destructive, action: onDelete) {
+                Label("Delete EC", systemImage: "trash")
             }
         }
         .position(node.position)
+    }
+
+    private var donutNodeView: some View {
+        ZStack {
+            backgroundCircle
+            donutSegments
+            centerLabel
+            sectionLabels
+        }
+        .frame(width: donutSize, height: donutSize)
+        .shadow(color: shadowColor, radius: shadowRadius)
+        .frame(width: tapAreaSize, height: tapAreaSize)
+        .contentShape(Circle())
+    }
+
+    private var backgroundCircle: some View {
+        Circle()
+            .fill(Color.clear)
+            .frame(width: donutSize, height: donutSize)
+            .overlay(
+                Circle()
+                    .stroke(strokeColor, lineWidth: strokeWidth)
+            )
+    }
+
+    private var donutSegments: some View {
+        ForEach(ECSection.allCases, id: \.self) { section in
+            let fillColor = section.isFilled(for: node) ? section.color : Color.gray.opacity(0.2)
+            let innerR = donutSize * innerRadiusRatio / 2
+            let outerR = donutSize * outerRadiusRatio / 2
+
+            DonutSegmentShape(
+                startAngle: section.startAngle,
+                endAngle: section.endAngle,
+                innerRadius: innerR,
+                outerRadius: outerR
+            )
+            .fill(fillColor)
+            .overlay(
+                DonutSegmentShape(
+                    startAngle: section.startAngle,
+                    endAngle: section.endAngle,
+                    innerRadius: innerR,
+                    outerRadius: outerR
+                )
+                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+            )
+        }
+    }
+
+    private var centerLabel: some View {
+        VStack(spacing: 2) {
+            Text("EC")
+                .font(.system(size: 10 * fontScale))
+                .foregroundColor(.secondary)
+            Text("#\(node.sequenceNumber + 1)")
+                .font(.system(size: 16 * fontScale, weight: .bold))
+                .foregroundColor(.primary)
+
+            if !node.duration.isEmpty {
+                Text(node.duration)
+                    .font(.system(size: 8 * fontScale))
+                    .foregroundColor(.secondary)
+                    .lineLimit(1)
+            }
+
+            if node.milestoneId != nil {
+                Image(systemName: "target")
+                    .font(.system(size: 10 * fontScale))
+                    .foregroundColor(.orange)
+            }
+        }
+    }
+
+    private var sectionLabels: some View {
+        ForEach(ECSection.allCases, id: \.self) { section in
+            Text(section.label)
+                .font(.system(size: 12 * fontScale, weight: .bold))
+                .foregroundColor(.white)
+                .offset(labelOffset(for: section))
+        }
+    }
+
+    private var connectionAnchors: some View {
+        ForEach([AnchorDirection.top, .bottom, .left, .right], id: \.self) { direction in
+            ConnectionAnchor(
+                direction: direction,
+                isActive: false,
+                onDragStart: { onConnectionStart(direction) },
+                onDragChanged: { location in onConnectionDrag(location) },
+                onDragEnd: { location in onConnectionEnd(location) }
+            )
+        }
+    }
+
+    private var dragGesture: some Gesture {
+        DragGesture(coordinateSpace: .named("canvas"))
+            .onChanged { value in
+                if !isDragging {
+                    isDragging = true
+                    dragOffset = CGSize(
+                        width: value.startLocation.x - node.position.x,
+                        height: value.startLocation.y - node.position.y
+                    )
+                }
+                let newPosition = CGPoint(
+                    x: value.location.x - dragOffset.width,
+                    y: value.location.y - dragOffset.height
+                )
+                onDrag(newPosition)
+            }
+            .onEnded { _ in
+                isDragging = false
+                dragOffset = .zero
+            }
+    }
+
+    private var strokeColor: Color {
+        isSelected ? Color.blue : Color.gray.opacity(0.3)
+    }
+
+    private var strokeWidth: CGFloat {
+        isSelected ? 3 : 1
+    }
+
+    private var shadowColor: Color {
+        isSelected ? .blue.opacity(0.3) : .gray.opacity(0.2)
+    }
+
+    private var shadowRadius: CGFloat {
+        isSelected ? 8 : 4
+    }
+
+    private func handleDoubleTap() {
+        if !isConnectionMode {
+            onDoubleClick()
+        }
+    }
+
+    private func handleTap() {
+        if !isConnectionMode {
+            onTap()
+        }
     }
 
     private func labelOffset(for section: ECSection) -> CGSize {
@@ -328,7 +306,8 @@ struct NodeView_Previews: PreviewProvider {
             onDrag: { _ in },
             onConnectionStart: { _ in },
             onConnectionDrag: { _ in },
-            onConnectionEnd: { _ in }
+            onConnectionEnd: { _ in },
+            onDelete: {}
         )
         .frame(width: 400, height: 400)
         .background(Color.gray.opacity(0.1))

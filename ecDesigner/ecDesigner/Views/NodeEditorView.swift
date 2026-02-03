@@ -42,6 +42,8 @@ struct NodeEditorView: View {
     @State private var showCancelConfirmation = false
     @State private var selectedTab: ECEditingTab = .guidingQuestions
     @State private var hasRestoredTab = false
+    @State private var originalNode: ECNode?
+    @State private var hasChanges = false
 
     private var hasContent: Bool {
         !node.guidingQuestions.isEmpty ||
@@ -53,6 +55,24 @@ struct NodeEditorView: View {
         !node.learningObjective.isEmpty ||
         !node.artifact.isEmpty ||
         !node.mentorTasks.isEmpty
+    }
+
+    private func checkForChanges() {
+        guard let original = originalNode else {
+            hasChanges = false
+            return
+        }
+        hasChanges = node.guidingQuestions != original.guidingQuestions ||
+                     node.guidingActivities != original.guidingActivities ||
+                     node.findings != original.findings ||
+                     node.synthesis != original.synthesis ||
+                     node.duration != original.duration ||
+                     node.day != original.day ||
+                     node.learningObjective != original.learningObjective ||
+                     node.artifact != original.artifact ||
+                     node.mentorTasks != original.mentorTasks ||
+                     node.milestoneId != original.milestoneId ||
+                     node.nextECId != original.nextECId
     }
 
     private func isTabCompleted(_ tab: ECEditingTab) -> Bool {
@@ -198,14 +218,21 @@ struct NodeEditorView: View {
 
                 Button("Save") {
                     onSave(node)
+                    originalNode = node
+                    hasChanges = false
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(!hasChanges)
             }
             .padding()
         }
         .frame(width: 600, height: 700)
         .interactiveDismissDisabled()
         .onAppear {
+            // Save original node for change detection
+            if originalNode == nil {
+                originalNode = node
+            }
             // Restore last selected tab if available
             if !hasRestoredTab {
                 if let lastTabRawValue = node.lastSelectedTab,
@@ -215,6 +242,17 @@ struct NodeEditorView: View {
                 hasRestoredTab = true
             }
         }
+        .onChange(of: node.guidingQuestions) { _ in checkForChanges() }
+        .onChange(of: node.guidingActivities) { _ in checkForChanges() }
+        .onChange(of: node.findings) { _ in checkForChanges() }
+        .onChange(of: node.synthesis) { _ in checkForChanges() }
+        .onChange(of: node.duration) { _ in checkForChanges() }
+        .onChange(of: node.day) { _ in checkForChanges() }
+        .onChange(of: node.learningObjective) { _ in checkForChanges() }
+        .onChange(of: node.artifact) { _ in checkForChanges() }
+        .onChange(of: node.mentorTasks) { _ in checkForChanges() }
+        .onChange(of: node.milestoneId) { _ in checkForChanges() }
+        .onChange(of: node.nextECId) { _ in checkForChanges() }
         .alert("Unsaved Changes", isPresented: $showCancelConfirmation) {
             Button("Don't Save", role: .destructive) {
                 onCancel()

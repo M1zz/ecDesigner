@@ -1,6 +1,69 @@
 import Foundation
 import SwiftUI
 
+// EC 구성 요소별 섹션 정보
+// "The synthesis leads to or represents a milestone"
+enum ECSection: CaseIterable, Hashable {
+    case guidingQuestions    // GQ - 9시~12시 (What needs to be learned?)
+    case guidingActivities   // GA - 12시~3시 (How will we learn it?)
+    case findings            // Fi - 3시~6시 (What did we learn?)
+    case synthesis           // Mi - 6시~9시 (Synthesis → Milestone)
+
+    var startAngle: Angle {
+        switch self {
+        case .guidingQuestions: return .degrees(180)  // 9시
+        case .guidingActivities: return .degrees(-90) // 12시
+        case .findings: return .degrees(0)            // 3시
+        case .synthesis: return .degrees(90)          // 6시
+        }
+    }
+
+    var endAngle: Angle {
+        switch self {
+        case .guidingQuestions: return .degrees(-90)  // 12시
+        case .guidingActivities: return .degrees(0)   // 3시
+        case .findings: return .degrees(90)           // 6시
+        case .synthesis: return .degrees(180)         // 9시
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .guidingQuestions: return .blue
+        case .guidingActivities: return .green
+        case .findings: return .yellow
+        case .synthesis: return .purple
+        }
+    }
+
+    var label: String {
+        switch self {
+        case .guidingQuestions: return "GQ"
+        case .guidingActivities: return "GA"
+        case .findings: return "Fi"
+        case .synthesis: return "Mi"  // Synthesis leads to/represents Milestone
+        }
+    }
+
+    var labelPosition: Angle {
+        switch self {
+        case .guidingQuestions: return .degrees(-135)  // 9시~12시 중앙
+        case .guidingActivities: return .degrees(-45)  // 12시~3시 중앙
+        case .findings: return .degrees(45)            // 3시~6시 중앙
+        case .synthesis: return .degrees(135)          // 6시~9시 중앙
+        }
+    }
+
+    func isFilled(for node: ECNode) -> Bool {
+        switch self {
+        case .guidingQuestions: return !node.guidingQuestions.isEmpty
+        case .guidingActivities: return !node.guidingActivities.isEmpty
+        case .findings: return !node.findings.isEmpty
+        case .synthesis: return !node.synthesis.isEmpty
+        }
+    }
+}
+
 struct ECNode: Identifiable, Codable, Equatable {
     let id: UUID
     var position: CGPoint

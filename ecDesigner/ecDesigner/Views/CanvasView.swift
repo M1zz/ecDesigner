@@ -540,6 +540,9 @@ struct CanvasView: View {
                 },
                 onConnectionEnd: { location in
                     viewModel.finishConnection(at: location)
+                },
+                onDelete: {
+                    viewModel.deleteNode(node.id)
                 }
             )
             .offset(x: viewModel.canvasOffset.width, y: viewModel.canvasOffset.height)

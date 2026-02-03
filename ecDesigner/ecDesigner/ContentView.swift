@@ -460,13 +460,20 @@ struct ContentView: View {
             existingWindow.close()
         }
 
-        // Get binding to the node in the array
-        guard let index = viewModel.exploratoryCycle.nodes.firstIndex(where: { $0.id == node.id }) else {
-            return
-        }
+        // Create a stable binding based on node ID
+        let nodeBinding = Binding<ECNode>(
+            get: {
+                viewModel.exploratoryCycle.nodes.first(where: { $0.id == node.id }) ?? node
+            },
+            set: { updatedNode in
+                if let index = viewModel.exploratoryCycle.nodes.firstIndex(where: { $0.id == node.id }) {
+                    viewModel.exploratoryCycle.nodes[index] = updatedNode
+                }
+            }
+        )
 
         let contentView = NodeEditorView(
-            node: $viewModel.exploratoryCycle.nodes[index],
+            node: nodeBinding,
             fontScale: viewModel.fontScale,
             availableMilestones: viewModel.exploratoryCycle.getOrderedMilestones(),
             availableECs: viewModel.exploratoryCycle.getOrderedNodes(),
@@ -508,6 +515,9 @@ struct ContentView: View {
         window.title = "EC #\(node.sequenceNumber + 1)"
         window.contentViewController = hostingController
         window.isReleasedWhenClosed = false
+
+        // Prevent accidental window close with keyboard shortcuts
+        window.standardWindowButton(.closeButton)?.keyEquivalent = ""
 
         // Handle window close
         NotificationCenter.default.addObserver(
