@@ -1,0 +1,624 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.ecDesigner-arm64-apple-macosx26.0-debug.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/sources",
+      "importPath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Helpers/WindowHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ECNode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ExploratoryCycle.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Milestone.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/PersistenceManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Phase.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Project.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Utils/CSVExporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ViewModels/CanvasViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/CanvasView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ChallengeEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ConnectionView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneNodeView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ProjectListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ecDesignerApp.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "ecDesigner",
+      "moduleOutputPath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/Modules/ecDesigner.swiftmodule",
+      "objects" : [
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.swift.o",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-incremental",
+        "-enable-batch-mode",
+        "-serialize-diagnostics",
+        "-index-store-path",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j8",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "ecDesigner_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "ecdesigner"
+      ],
+      "outputFileMapPath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/Modules/ecDesigner.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ContentView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Helpers/WindowHelper.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ECNode.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ExploratoryCycle.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Milestone.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/PersistenceManager.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Phase.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Project.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Utils/CSVExporter.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ViewModels/CanvasViewModel.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/CanvasView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ChallengeEditorView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ConnectionView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneEditorView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneNodeView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeEditorView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ProjectListView.swift",
+        "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ecDesignerApp.swift"
+      ],
+      "tempsPath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "ecDesigner" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "ecDesigner",
+      "-package-name",
+      "ecdesigner",
+      "-c",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ContentView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Helpers/WindowHelper.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ECNode.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ExploratoryCycle.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Milestone.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/PersistenceManager.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Phase.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Project.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Utils/CSVExporter.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ViewModels/CanvasViewModel.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/CanvasView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ChallengeEditorView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ConnectionView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneEditorView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneNodeView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeEditorView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ProjectListView.swift",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ecDesignerApp.swift",
+      "-I",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-incremental",
+      "-enable-batch-mode",
+      "-serialize-diagnostics",
+      "-index-store-path",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j8",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "ecDesigner_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.0.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/PrivateFrameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "ecdesigner",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "ecDesigner" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner-entitlement.plist" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<entitlement-plist>"
+        },
+        {
+          "kind" : "virtual",
+          "name" : "<com.apple.security.get-task-allow>"
+        }
+      ],
+      "outputFilePath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner-entitlement.plist"
+    },
+    "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ContentView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Helpers/WindowHelper.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ECNode.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ExploratoryCycle.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Milestone.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/PersistenceManager.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Phase.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Project.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Utils/CSVExporter.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ViewModels/CanvasViewModel.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/CanvasView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ChallengeEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ConnectionView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneNodeView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeEditorView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ProjectListView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ecDesignerApp.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/sources"
+    },
+    "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.product/Objects.LinkFileList"
+    },
+    "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

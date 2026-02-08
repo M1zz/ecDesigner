@@ -1,0 +1,145 @@
+{
+  "": {
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/master.swiftdeps"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ContentView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ContentView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Helpers/WindowHelper.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/WindowHelper.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ECNode.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ECNode.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/ExploratoryCycle.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ExploratoryCycle.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Milestone.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Milestone.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/PersistenceManager.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/PersistenceManager.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Phase.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Phase.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Models/Project.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/Project.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Utils/CSVExporter.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CSVExporter.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ViewModels/CanvasViewModel.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasViewModel.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/CanvasView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/CanvasView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ChallengeEditorView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ChallengeEditorView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ConnectionView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ConnectionView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneEditorView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneEditorView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneNodeView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneNodeView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/MilestoneView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/MilestoneView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeEditorView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeEditorView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/NodeView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/NodeView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/Views/ProjectListView.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ProjectListView.dia"
+  },
+  "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/ecDesigner/ecDesignerApp.swift": {
+    "dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.d",
+    "object": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.swift.o",
+    "swiftmodule": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp~partial.swiftmodule",
+    "swift-dependencies": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.swiftdeps",
+    "diagnostics": "/Users/hyunholee/Documents/workspace/code/ecDesigner/ecDesigner/.build/arm64-apple-macosx/debug/ecDesigner.build/ecDesignerApp.dia"
+  }
+}
