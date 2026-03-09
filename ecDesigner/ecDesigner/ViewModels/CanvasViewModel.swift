@@ -64,6 +64,23 @@ class CanvasViewModel: ObservableObject {
         }
     }
 
+    func addNodeToMilestone(_ milestoneId: UUID) {
+        guard let milestone = exploratoryCycle.milestones.first(where: { $0.id == milestoneId }) else { return }
+        let linkedECCount = exploratoryCycle.nodes.filter { $0.milestoneId == milestoneId }.count
+        let position = CGPoint(
+            x: milestone.position.x + 250 + CGFloat(linkedECCount) * 180,
+            y: milestone.position.y
+        )
+        let newNode = ECNode(
+            position: position,
+            sequenceNumber: exploratoryCycle.nodes.count,
+            milestoneId: milestoneId
+        )
+        exploratoryCycle.addNode(newNode)
+        selectedNodeId = newNode.id
+        recordUndo(.addNode(newNode))
+    }
+
     func addNode(at position: CGPoint) {
         let sequenceNumber = exploratoryCycle.nodes.count
 

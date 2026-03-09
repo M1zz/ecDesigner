@@ -8,6 +8,7 @@ struct MilestoneView: View {
     let fontScale: CGFloat
     let onTap: () -> Void
     let onDoubleClick: () -> Void
+    let onAddEC: () -> Void
     let onDrag: (CGPoint) -> Void
     let onNodeTap: (ECNode) -> Void
     let onNodeDoubleClick: (ECNode) -> Void
@@ -69,11 +70,11 @@ struct MilestoneView: View {
         .position(milestone.position)
         .scaleEffect(isDragging ? 1.02 : 1.0)
         .animation(.spring(response: 0.3), value: isDragging)
-        .onTapGesture {
-            onTap()
-        }
         .onTapGesture(count: 2) {
             onDoubleClick()
+        }
+        .onTapGesture {
+            onTap()
         }
         .gesture(
             DragGesture(coordinateSpace: .named("canvas"))
@@ -166,6 +167,10 @@ struct MilestoneView: View {
                         .foregroundColor(.secondary.opacity(0.7))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .contentShape(Rectangle())
+                .onTapGesture(count: 2) {
+                    onAddEC()
+                }
             } else {
                 // EC 노드들을 그리드로 배치 (3열)
                 LazyVGrid(columns: [
@@ -249,11 +254,11 @@ struct MiniECNodeView: View {
         .shadow(color: isSelected ? .orange.opacity(0.3) : .gray.opacity(0.2), radius: isSelected ? 6 : 3)
         .scaleEffect(isSelected ? 1.1 : 1.0)
         .animation(.spring(response: 0.2), value: isSelected)
-        .onTapGesture {
-            onTap()
-        }
         .onTapGesture(count: 2) {
             onDoubleClick()
+        }
+        .onTapGesture {
+            onTap()
         }
         .help(node.guidingQuestions.isEmpty ? "EC #\(node.sequenceNumber + 1)" : node.guidingQuestions)
     }

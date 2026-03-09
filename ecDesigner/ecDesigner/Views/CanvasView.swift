@@ -483,6 +483,9 @@ struct CanvasView: View {
                 onDoubleClick: {
                     onMilestoneEdit(milestone)
                 },
+                onAddEC: {
+                    viewModel.addNodeToMilestone(milestone.id)
+                },
                 onDrag: { location in
                     let adjustedLocation = CGPoint(
                         x: location.x - viewModel.canvasOffset.width,
@@ -552,22 +555,17 @@ struct CanvasView: View {
     // MARK: - Event Handlers
     private func setupScrollEventMonitor() {
         scrollEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { event in
-            // 다른 창이 열려있으면 스크롤 모니터 비활성화
-            // Count visible windows (excluding sheets)
-            let visibleWindows = NSApp.windows.filter { $0.isVisible && !$0.isSheet }
+            // 이벤트가 메인 캔버스 창에서 발생한 경우만 처리
+            // 에디터 팝업 등 다른 창에서 발생한 이벤트는 그대로 통과
+            guard event.window == NSApp.mainWindow else { return event }
 
-            // If there are multiple windows, don't handle scroll events at all
-            // This allows other windows to scroll normally
-            if visibleWindows.count > 1 {
-                return event  // Pass through - let other windows handle scroll
-            }
-
-            // Two-finger trackpad scroll (only when main window is alone)
+            // 트랙패드 두 손가락 스와이프 (phase 기반)
             if event.phase == .began || event.phase == .changed {
-                // Invert scroll direction for natural scrolling feel
+                let deltaX = event.hasPreciseScrollingDeltas ? event.scrollingDeltaX : event.scrollingDeltaX * 3
+                let deltaY = event.hasPreciseScrollingDeltas ? event.scrollingDeltaY : event.scrollingDeltaY * 3
                 viewModel.canvasOffset = CGSize(
-                    width: viewModel.canvasOffset.width + event.scrollingDeltaX,
-                    height: viewModel.canvasOffset.height + event.scrollingDeltaY
+                    width: viewModel.canvasOffset.width + deltaX,
+                    height: viewModel.canvasOffset.height + deltaY
                 )
                 return nil
             }

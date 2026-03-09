@@ -2,10 +2,10 @@ import SwiftUI
 
 enum ECEditingTab: String, CaseIterable {
     case metadata = "Info"
-    case guidingQuestions = "1. GQ"
-    case guidingActivities = "2. GA"
-    case findings = "3. Fi"
-    case synthesis = "4. Mi"
+    case guidingQuestions = "GQ"
+    case guidingActivities = "GA"
+    case findings = "Fi"
+    case synthesis = "Mi"
 
     var icon: String {
         switch self {
@@ -78,9 +78,9 @@ struct NodeEditorView: View {
     private func isTabCompleted(_ tab: ECEditingTab) -> Bool {
         switch tab {
         case .metadata:
-            return !node.duration.isEmpty || node.milestoneId != nil ||
-                   !node.day.isEmpty || !node.learningObjective.isEmpty ||
-                   !node.artifact.isEmpty || !node.mentorTasks.isEmpty
+            return !node.duration.isEmpty || !node.day.isEmpty ||
+                   !node.learningObjective.isEmpty || !node.artifact.isEmpty ||
+                   !node.mentorTasks.isEmpty
         case .guidingQuestions:
             return !node.guidingQuestions.isEmpty
         case .guidingActivities:
@@ -574,7 +574,7 @@ struct NodeEditorView: View {
                 HStack {
                     Image(systemName: "checkmark.circle")
                         .foregroundColor(.green)
-                    Text("✅ 달성했다면 이 EC를 완료하고 다음 마일스톤으로 이동합니다")
+                    Text("달성했다면 이 EC를 완료하고 다음 마일스톤으로 이동합니다")
                         .font(.system(size: 11 * fontScale))
                         .foregroundColor(.secondary)
                 }
@@ -600,8 +600,6 @@ struct NodeEditorView: View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("1️⃣")
-                        .font(.system(size: 24 * fontScale, weight: .bold))
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Guiding Questions")
                             .font(.system(size: 20 * fontScale, weight: .bold))
@@ -646,8 +644,6 @@ struct NodeEditorView: View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("2️⃣")
-                        .font(.system(size: 24 * fontScale, weight: .bold))
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Guiding Activities / Resources")
                             .font(.system(size: 20 * fontScale, weight: .bold))
@@ -692,8 +688,6 @@ struct NodeEditorView: View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("3️⃣")
-                        .font(.system(size: 24 * fontScale, weight: .bold))
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Findings")
                             .font(.system(size: 20 * fontScale, weight: .bold))
@@ -738,8 +732,6 @@ struct NodeEditorView: View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    Text("4️⃣")
-                        .font(.system(size: 24 * fontScale, weight: .bold))
                     VStack(alignment: .leading, spacing: 2) {
                         Text("Synthesis → Milestone")
                             .font(.system(size: 20 * fontScale, weight: .bold))
@@ -779,10 +771,10 @@ struct NodeEditorView: View {
                         .font(.system(size: 13 * fontScale, weight: .semibold))
                 }
 
-                Text("✅ 달성: 다음 마일스톤으로 이동")
+                Text("달성: 다음 마일스톤으로 이동")
                     .font(.system(size: 11 * fontScale))
                     .foregroundColor(.secondary)
-                Text("❌ 미달성: 새로운 EC를 생성하여 추가 탐색")
+                Text("미달성: 새로운 EC를 생성하여 추가 탐색")
                     .font(.system(size: 11 * fontScale))
                     .foregroundColor(.secondary)
             }
