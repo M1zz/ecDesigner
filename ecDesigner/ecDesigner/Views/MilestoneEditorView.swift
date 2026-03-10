@@ -179,6 +179,10 @@ struct MilestoneEditorView: View {
                     )
                 }
                 .buttonStyle(.plain)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .bottom).combined(with: .opacity),
+                    removal: .opacity.combined(with: .scale(scale: 0.95))
+                ))
             }
         }
     }
@@ -239,8 +243,10 @@ struct MilestoneEditorView: View {
                                 .font(.system(size: 11 * fontScale))
                                 .foregroundColor(.secondary)
                         }
+                        .transition(.move(edge: .top).combined(with: .opacity))
                     }
                 }
+                .animation(Animation.spring(response: 0.32, dampingFraction: 0.82), value: milestone.phase)
 
             case "description":
                 TextEditor(text: $milestone.description)

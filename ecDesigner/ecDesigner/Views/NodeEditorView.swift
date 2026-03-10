@@ -112,7 +112,9 @@ struct NodeEditorView: View {
                 HStack(spacing: 8) {
                     ForEach(ECEditingTab.allCases, id: \.self) { tab in
                         Button(action: {
-                            selectedTab = tab
+                            withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.84)) {
+                                selectedTab = tab
+                            }
                             node.lastSelectedTab = tab.rawValue
                         }) {
                             HStack(spacing: 6) {
@@ -163,6 +165,11 @@ struct NodeEditorView: View {
                         synthesisContent
                     }
                 }
+                .id(selectedTab)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
                 .padding()
             }
 
@@ -477,8 +484,10 @@ struct NodeEditorView: View {
                                 RoundedRectangle(cornerRadius: 6)
                                     .fill(Color.orange.opacity(0.1))
                             )
+                            .transition(.move(edge: .top).combined(with: .opacity))
                         }
                     }
+                    .animation(Animation.spring(response: 0.32, dampingFraction: 0.82), value: node.milestoneId)
                 }
             }
             .padding()
