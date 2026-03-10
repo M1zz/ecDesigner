@@ -475,10 +475,16 @@ struct ChallengeEditorView: View {
             optionSelector(options: regulationModelOptions, selected: $project.regulationModel, accentColor: .teal)
 
         case "roleInLearningJourney":
-            TextEditor(text: $project.roleInLearningJourney)
-                .font(.system(size: 14 * fontScale))
-                .frame(minHeight: 80)
-                .border(Color.yellow.opacity(0.3), width: 1)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Describe how this Challenge builds on the previous experience and leads to the next. I.E., Why are we doing this Challenge and why are we doing it now?")
+                    .font(.system(size: 11 * fontScale))
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                TextEditor(text: $project.roleInLearningJourney)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 80)
+                    .border(Color.yellow.opacity(0.3), width: 1)
+            }
 
         case "targetLearners":
             TextEditor(text: $project.targetLearners)
