@@ -410,7 +410,11 @@ struct ChallengeEditorView: View {
                     Divider().padding(.vertical, 4)
                 }
                 ForEach(remainingFields, id: \.id) { field in
-                    Button(action: { addedFields.insert(field.id) }) {
+                    Button(action: {
+                        withAnimation(Animation.spring(response: 0.38, dampingFraction: 0.78)) {
+                            _ = addedFields.insert(field.id)
+                        }
+                    }) {
                         HStack(spacing: 12) {
                             ZStack {
                                 Circle()
@@ -473,7 +477,7 @@ struct ChallengeEditorView: View {
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(field.iconColor.opacity(0.15), lineWidth: 1))
         )
         .transition(.asymmetric(insertion: .move(edge: .top).combined(with: .opacity), removal: .opacity))
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: addedFields)
+        .animation(Animation.spring(response: 0.3, dampingFraction: 0.8), value: addedFields)
     }
 
     @ViewBuilder
@@ -616,7 +620,9 @@ struct ChallengeEditorView: View {
                     .font(.system(size: 12 * fontScale, weight: .semibold))
                     .foregroundColor(.secondary)
                 Spacer()
-                Button(action: { showHolidayPicker.toggle() }) {
+                Button(action: {
+                    withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.8)) { showHolidayPicker.toggle() }
+                }) {
                     Label("Add Holiday", systemImage: showHolidayPicker ? "xmark" : "plus")
                         .font(.system(size: 11 * fontScale))
                 }
@@ -637,18 +643,26 @@ struct ChallengeEditorView: View {
                         if !project.holidays.contains(where: {
                             Calendar.current.isDate($0, inSameDayAs: day)
                         }) {
-                            project.holidays.append(day)
-                            project.holidays.sort()
+                            withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.8)) {
+                                project.holidays.append(day)
+                                project.holidays.sort()
+                                showHolidayPicker = false
+                            }
+                            recalculateWorkingDays()
+                        } else {
+                            withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.8)) {
+                                showHolidayPicker = false
+                            }
                         }
-                        showHolidayPicker = false
-                        recalculateWorkingDays()
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.small)
 
-                    Button("Cancel") { showHolidayPicker = false }
-                        .buttonStyle(.bordered)
-                        .controlSize(.small)
+                    Button("Cancel") {
+                        withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.8)) { showHolidayPicker = false }
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
                 }
                 .padding(8)
                 .background(
@@ -656,6 +670,7 @@ struct ChallengeEditorView: View {
                         .fill(Color.orange.opacity(0.05))
                         .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color.orange.opacity(0.2), lineWidth: 1))
                 )
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
 
             if !project.holidays.isEmpty {
@@ -689,8 +704,10 @@ struct ChallengeEditorView: View {
                         Spacer()
 
                         Button(action: {
-                            project.holidays.removeAll {
-                                Calendar.current.isDate($0, inSameDayAs: holiday)
+                            withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.82)) {
+                                project.holidays.removeAll {
+                                    Calendar.current.isDate($0, inSameDayAs: holiday)
+                                }
                             }
                             recalculateWorkingDays()
                         }) {
@@ -700,6 +717,10 @@ struct ChallengeEditorView: View {
                         }
                         .buttonStyle(.plain)
                     }
+                    .transition(.asymmetric(
+                        insertion: .move(edge: .top).combined(with: .opacity),
+                        removal: .opacity.combined(with: .scale(scale: 0.95))
+                    ))
                 }
             }
         }
@@ -793,11 +814,13 @@ struct ChallengeEditorView: View {
                 // Other / Notes
                 let hasOther = project.mentoringFocus.contains("other")
                 Button(action: {
-                    if hasOther {
-                        project.mentoringFocus.removeAll { $0 == "other" }
-                        project.mentoringFocusOther = nil
-                    } else {
-                        project.mentoringFocus.append("other")
+                    withAnimation(Animation.spring(response: 0.32, dampingFraction: 0.8)) {
+                        if hasOther {
+                            project.mentoringFocus.removeAll { $0 == "other" }
+                            project.mentoringFocusOther = nil
+                        } else {
+                            project.mentoringFocus.append("other")
+                        }
                     }
                 }) {
                     HStack(alignment: .top, spacing: 10) {
@@ -817,6 +840,7 @@ struct ChallengeEditorView: View {
                                 .font(.system(size: 13 * fontScale))
                                 .textFieldStyle(.roundedBorder)
                                 .onTapGesture { } // prevent button swallow
+                                .transition(.move(edge: .top).combined(with: .opacity))
                             }
                         }
                         Spacer()
@@ -872,6 +896,7 @@ struct ChallengeEditorView: View {
                             .font(.system(size: 13 * fontScale))
                             .textFieldStyle(.roundedBorder)
                             .onTapGesture { }
+                            .transition(.move(edge: .top).combined(with: .opacity))
                         }
                     } else {
                         Text(label)
@@ -892,10 +917,12 @@ struct ChallengeEditorView: View {
     private func mentoringFocusRow(option: (id: String, label: String)) -> some View {
         let isSelected = project.mentoringFocus.contains(option.id)
         Button(action: {
-            if isSelected {
-                project.mentoringFocus.removeAll { $0 == option.id }
-            } else {
-                project.mentoringFocus.append(option.id)
+            withAnimation(Animation.spring(response: 0.28, dampingFraction: 0.82)) {
+                if isSelected {
+                    project.mentoringFocus.removeAll { $0 == option.id }
+                } else {
+                    project.mentoringFocus.append(option.id)
+                }
             }
         }) {
             HStack(spacing: 10) {
@@ -986,16 +1013,28 @@ struct ChallengeEditorView: View {
                     .font(.system(size: 13 * fontScale))
                     .textFieldStyle(.roundedBorder)
 
-                    Button(action: { items.wrappedValue.remove(at: idx) }) {
+                    Button(action: {
+                        withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.82)) {
+                            _ = items.wrappedValue.remove(at: idx)
+                        }
+                    }) {
                         Image(systemName: "xmark.circle.fill")
                             .font(.system(size: 14 * fontScale))
                             .foregroundColor(.secondary.opacity(0.4))
                     }
                     .buttonStyle(.plain)
                 }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .leading).combined(with: .opacity),
+                    removal: .opacity.combined(with: .scale(scale: 0.95))
+                ))
             }
 
-            Button(action: { items.wrappedValue.append("") }) {
+            Button(action: {
+                withAnimation(Animation.spring(response: 0.35, dampingFraction: 0.8)) {
+                    items.wrappedValue.append("")
+                }
+            }) {
                 Label("Add item", systemImage: "plus.circle.fill")
                     .font(.system(size: 12 * fontScale, weight: .medium))
                     .foregroundColor(accentColor)
@@ -1013,7 +1052,7 @@ struct ChallengeEditorView: View {
     }
 
     private func removeField(_ id: String) {
-        withAnimation { addedFields.remove(id) }
+        withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.82)) { addedFields.remove(id) }
         switch id {
         case "name":                   project.name = ""
         case "dates":

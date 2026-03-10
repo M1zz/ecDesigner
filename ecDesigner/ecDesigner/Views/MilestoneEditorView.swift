@@ -1,5 +1,24 @@
 import SwiftUI
 
+// 필드 정의 - 표시 순서가 곧 고정 순서
+private struct MilestoneField {
+    let id: String
+    let label: String
+    let icon: String
+    let iconColor: Color
+}
+
+private let allMilestoneFields: [MilestoneField] = [
+    MilestoneField(id: "title",            label: "Title",                icon: "flag.fill",              iconColor: .orange),
+    MilestoneField(id: "duration",         label: "Period",               icon: "calendar",               iconColor: .orange),
+    MilestoneField(id: "phase",            label: "Phase",                icon: "circle.grid.2x2",        iconColor: .gray),
+    MilestoneField(id: "description",      label: "Description",          icon: "text.alignleft",         iconColor: .secondary),
+    MilestoneField(id: "successCriteria",  label: "Success Criteria",     icon: "checkmark.seal.fill",    iconColor: .green),
+    MilestoneField(id: "deliverable",      label: "Deliverable",          icon: "shippingbox.fill",       iconColor: .blue),
+    MilestoneField(id: "artifacts",        label: "Artifacts",            icon: "doc.on.doc.fill",        iconColor: .teal),
+    MilestoneField(id: "mentorGuidelines", label: "Mentoring Guidelines", icon: "person.fill.badge.plus", iconColor: .purple),
+]
+
 struct MilestoneEditorView: View {
     @Binding var milestone: Milestone
     let fontScale: CGFloat
@@ -9,6 +28,8 @@ struct MilestoneEditorView: View {
 
     @State private var showCancelConfirmation = false
     @State private var initialMilestone: Milestone?
+    // 추가된 필드 ID (순서는 allMilestoneFields 기준으로 정렬)
+    @State private var addedFields: Set<String> = []
 
     private var hasChanges: Bool {
         guard let initial = initialMilestone else { return false }
@@ -21,233 +42,44 @@ struct MilestoneEditorView: View {
                milestone.phase != initial.phase
     }
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            Text("Milestone #\(milestone.sequenceNumber + 1)")
-                .font(.system(size: 22 * fontScale, weight: .bold))
+    // 추가된 필드를 고정 순서대로 반환
+    private var visibleFields: [MilestoneField] {
+        allMilestoneFields.filter { addedFields.contains($0.id) }
+    }
 
-            Text("Define the goal and expected outcomes")
-                .font(.system(size: 12 * fontScale))
-                .foregroundColor(.secondary)
+    // 아직 추가되지 않은 필드
+    private var remainingFields: [MilestoneField] {
+        allMilestoneFields.filter { !addedFields.contains($0.id) }
+    }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            // 헤더
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Milestone #\(milestone.sequenceNumber + 1)")
+                        .font(.system(size: 20 * fontScale, weight: .bold))
+                    Text("\(visibleFields.count) / \(allMilestoneFields.count) 항목 작성됨")
+                        .font(.system(size: 12 * fontScale))
+                        .foregroundColor(.secondary)
+                }
+                Spacer()
+            }
+            .padding()
 
             Divider()
 
             ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Title
-                    VStack(alignment: .leading, spacing: 4) {
-                        Label("Milestone Title", systemImage: "flag.fill")
-                            .font(.system(size: 17 * fontScale, weight: .semibold))
-                            .foregroundColor(.orange)
-
-                        TextField("Enter milestone title", text: $milestone.title)
-                            .font(.system(size: 14 * fontScale))
-                            .textFieldStyle(.roundedBorder)
+                VStack(alignment: .leading, spacing: 12) {
+                    // 추가된 필드들 (고정 순서)
+                    ForEach(visibleFields, id: \.id) { field in
+                        fieldView(for: field)
                     }
 
-                    // Description
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Description")
-                            .font(.system(size: 17 * fontScale, weight: .semibold))
-                            .foregroundColor(.secondary)
-
-                        Text("What is this milestone about?")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        TextEditor(text: $milestone.description)
-                            .font(.system(size: 14 * fontScale))
-                            .frame(minHeight: 80)
-                            .border(Color.gray.opacity(0.2), width: 1)
-                    }
-
-                    // Phase
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Image(systemName: milestone.phase?.icon ?? "circle.fill")
-                                .font(.system(size: 17 * fontScale))
-                                .foregroundColor(milestone.phase?.color ?? .gray)
-                            Text("Phase")
-                                .font(.system(size: 17 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Text("Which phase does this milestone belong to?")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        Picker("Phase", selection: $milestone.phase) {
-                            Text("None")
-                                .tag(nil as Phase?)
-                            ForEach(Phase.allCases, id: \.self) { phase in
-                                Text(phase.rawValue)
-                                    .tag(phase as Phase?)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-
-                        if let phase = milestone.phase {
-                            HStack {
-                                Image(systemName: "info.circle.fill")
-                                    .foregroundColor(phase.color)
-                                Text(phase.description)
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(phase.color.opacity(0.1))
-                            )
-                        }
-                    }
-
-                    // Success Criteria
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Image(systemName: "checkmark.seal.fill")
-                                .font(.system(size: 17 * fontScale))
-                                .foregroundColor(.green)
-                            Text("Success Criteria")
-                                .font(.system(size: 17 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Text("How will you know this milestone has been achieved?")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        TextEditor(text: $milestone.successCriteria)
-                            .font(.system(size: 14 * fontScale))
-                            .frame(minHeight: 80)
-                            .border(Color.gray.opacity(0.2), width: 1)
-                    }
-
-                    Divider()
-
-                    // Deliverable
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Image(systemName: "shippingbox.fill")
-                                .font(.system(size: 17 * fontScale))
-                                .foregroundColor(.blue)
-                            Text("Deliverable")
-                                .font(.system(size: 17 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Text("What will be delivered at this milestone?")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        TextEditor(text: $milestone.deliverable)
-                            .font(.system(size: 14 * fontScale))
-                            .frame(minHeight: 70)
-                            .border(Color.gray.opacity(0.2), width: 1)
-                    }
-
-                    // Artifacts
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Image(systemName: "doc.on.doc.fill")
-                                .font(.system(size: 17 * fontScale))
-                                .foregroundColor(.green)
-                            Text("Artifacts")
-                                .font(.system(size: 17 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Text("Tangible outputs or evidence of completion")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        TextEditor(text: $milestone.artifacts)
-                            .font(.system(size: 14 * fontScale))
-                            .frame(minHeight: 70)
-                            .border(Color.gray.opacity(0.2), width: 1)
-                    }
-
-                    Divider()
-
-                    // Mentor Guidelines
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Image(systemName: "person.fill.badge.plus")
-                                .font(.system(size: 17 * fontScale))
-                                .foregroundColor(.purple)
-                            Text("Mentoring Guidelines")
-                                .font(.system(size: 17 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        Text("How should mentors support learners in achieving this milestone?")
-                            .font(.system(size: 12 * fontScale))
-                            .foregroundColor(.secondary)
-                            .italic()
-
-                        TextEditor(text: $milestone.mentorGuidelines)
-                            .font(.system(size: 14 * fontScale))
-                            .frame(minHeight: 80)
-                            .border(Color.gray.opacity(0.2), width: 1)
-                    }
-
-                    Divider()
-
-                    // Info box
-                    VStack(alignment: .leading, spacing: 6) {
-                        HStack {
-                            Image(systemName: "info.circle.fill")
-                                .foregroundColor(.blue)
-                            Text("About Milestones")
-                                .font(.system(size: 15 * fontScale, weight: .semibold))
-                                .foregroundColor(.secondary)
-                        }
-
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack(alignment: .top, spacing: 4) {
-                                Text("•")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.blue)
-                                Text("Milestones represent significant achievements in your challenge")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.secondary)
-                            }
-
-                            HStack(alignment: .top, spacing: 4) {
-                                Text("•")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.blue)
-                                Text("Each milestone should have clear deliverables and artifacts")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.secondary)
-                            }
-
-                            HStack(alignment: .top, spacing: 4) {
-                                Text("•")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.blue)
-                                Text("Create Exploratory Cycles to achieve each milestone")
-                                    .font(.system(size: 11 * fontScale))
-                                    .foregroundColor(.secondary)
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(Color.blue.opacity(0.05))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.blue.opacity(0.2), lineWidth: 1)
-                            )
-                    )
+                    // 추가 가능한 필드 카드들
+                    addFieldButton
                 }
-                .padding(.vertical)
+                .padding()
             }
 
             Divider()
@@ -273,24 +105,208 @@ struct MilestoneEditorView: View {
                     onSave(milestone)
                 }
                 .buttonStyle(.borderedProminent)
+                .disabled(!hasChanges)
             }
+            .padding()
         }
-        .padding()
-        .frame(width: 650, height: 800)
+        .frame(width: 540, height: 680)
         .interactiveDismissDisabled()
         .onAppear {
             initialMilestone = milestone
+            // 이미 내용이 있는 필드는 자동으로 추가
+            if !milestone.title.isEmpty            { addedFields.insert("title") }
+            if !milestone.duration.isEmpty         { addedFields.insert("duration") }
+            if milestone.phase != nil              { addedFields.insert("phase") }
+            if !milestone.description.isEmpty      { addedFields.insert("description") }
+            if !milestone.successCriteria.isEmpty  { addedFields.insert("successCriteria") }
+            if !milestone.deliverable.isEmpty      { addedFields.insert("deliverable") }
+            if !milestone.artifacts.isEmpty        { addedFields.insert("artifacts") }
+            if !milestone.mentorGuidelines.isEmpty { addedFields.insert("mentorGuidelines") }
         }
         .alert("Unsaved Changes", isPresented: $showCancelConfirmation) {
-            Button("Don't Save", role: .destructive) {
-                onCancel()
-            }
+            Button("Don't Save", role: .destructive) { onCancel() }
             Button("Cancel", role: .cancel) { }
-            Button("Save") {
-                onSave(milestone)
-            }
+            Button("Save") { onSave(milestone) }
         } message: {
             Text("Do you want to save your changes to this Milestone?")
+        }
+    }
+
+    // MARK: - 추가 가능한 필드 카드들
+
+    private var addFieldButton: some View {
+        VStack(spacing: 8) {
+            if !addedFields.isEmpty {
+                Divider()
+                    .padding(.vertical, 4)
+            }
+
+            ForEach(remainingFields, id: \.id) { field in
+                Button(action: {
+                    withAnimation(Animation.spring(response: 0.38, dampingFraction: 0.78)) {
+                        _ = addedFields.insert(field.id)
+                    }
+                }) {
+                    HStack(spacing: 12) {
+                        ZStack {
+                            Circle()
+                                .fill(field.iconColor.opacity(0.12))
+                                .frame(width: 36, height: 36)
+                            Image(systemName: field.icon)
+                                .font(.system(size: 15 * fontScale))
+                                .foregroundColor(field.iconColor)
+                        }
+
+                        Text(field.label)
+                            .font(.system(size: 14 * fontScale, weight: .medium))
+                            .foregroundColor(.primary)
+
+                        Spacer()
+
+                        Image(systemName: "plus")
+                            .font(.system(size: 14 * fontScale, weight: .semibold))
+                            .foregroundColor(.secondary.opacity(0.5))
+                    }
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(Color(NSColor.controlBackgroundColor))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .stroke(Color.gray.opacity(0.15), lineWidth: 1)
+                            )
+                    )
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    // MARK: - 개별 필드 뷰
+
+    @ViewBuilder
+    private func fieldView(for field: MilestoneField) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            // 필드 헤더
+            HStack(spacing: 8) {
+                Image(systemName: field.icon)
+                    .font(.system(size: 13 * fontScale))
+                    .foregroundColor(field.iconColor)
+                    .frame(width: 18)
+                Text(field.label)
+                    .font(.system(size: 13 * fontScale, weight: .semibold))
+                    .foregroundColor(.primary)
+                Spacer()
+                // 제거 버튼
+                Button(action: { removeField(field.id) }) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 11 * fontScale))
+                        .foregroundColor(.secondary.opacity(0.6))
+                }
+                .buttonStyle(.plain)
+                .help("\(field.label) 제거")
+            }
+
+            // 필드 에디터
+            switch field.id {
+            case "title":
+                TextField("Enter milestone title", text: $milestone.title)
+                    .font(.system(size: 14 * fontScale))
+                    .textFieldStyle(.roundedBorder)
+
+            case "duration":
+                TextField("e.g. Week 1–2, Day 1–5", text: $milestone.duration)
+                    .font(.system(size: 14 * fontScale))
+                    .textFieldStyle(.roundedBorder)
+
+            case "phase":
+                VStack(alignment: .leading, spacing: 8) {
+                    Picker("Phase", selection: $milestone.phase) {
+                        Text("None").tag(nil as Phase?)
+                        ForEach(Phase.allCases, id: \.self) { phase in
+                            Text(phase.rawValue).tag(phase as Phase?)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    if let phase = milestone.phase {
+                        HStack(spacing: 6) {
+                            Image(systemName: "info.circle.fill")
+                                .foregroundColor(phase.color)
+                                .font(.system(size: 11 * fontScale))
+                            Text(phase.description)
+                                .font(.system(size: 11 * fontScale))
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
+            case "description":
+                TextEditor(text: $milestone.description)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 80)
+                    .border(Color.gray.opacity(0.2), width: 1)
+
+            case "successCriteria":
+                TextEditor(text: $milestone.successCriteria)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 80)
+                    .border(Color.green.opacity(0.2), width: 1)
+
+            case "deliverable":
+                TextEditor(text: $milestone.deliverable)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 70)
+                    .border(Color.blue.opacity(0.2), width: 1)
+
+            case "artifacts":
+                TextEditor(text: $milestone.artifacts)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 70)
+                    .border(Color.teal.opacity(0.2), width: 1)
+
+            case "mentorGuidelines":
+                TextEditor(text: $milestone.mentorGuidelines)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 80)
+                    .border(Color.purple.opacity(0.2), width: 1)
+
+            default:
+                EmptyView()
+            }
+        }
+        .padding(14)
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .fill(Color(NSColor.controlBackgroundColor))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(field.iconColor.opacity(0.15), lineWidth: 1)
+                )
+        )
+        .transition(.asymmetric(
+            insertion: .move(edge: .top).combined(with: .opacity),
+            removal: .opacity
+        ))
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: addedFields)
+    }
+
+    private func removeField(_ id: String) {
+        withAnimation(.spring(response: 0.25, dampingFraction: 0.8)) {
+            addedFields.remove(id)
+        }
+        // 제거 시 해당 필드 내용 초기화
+        switch id {
+        case "title":            milestone.title = ""
+        case "duration":         milestone.duration = ""
+        case "phase":            milestone.phase = nil
+        case "description":      milestone.description = ""
+        case "successCriteria":  milestone.successCriteria = ""
+        case "deliverable":      milestone.deliverable = ""
+        case "artifacts":        milestone.artifacts = ""
+        case "mentorGuidelines": milestone.mentorGuidelines = ""
+        default: break
         }
     }
 }
