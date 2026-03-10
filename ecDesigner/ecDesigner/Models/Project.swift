@@ -3,6 +3,7 @@ import Foundation
 struct Project: Identifiable, Codable {
     let id: UUID
     var name: String
+    var theme: String
     var roleInLearningJourney: String
     var targetLearners: String      // kept for backward compat, no longer shown in UI
     var duration: String
@@ -31,6 +32,7 @@ struct Project: Identifiable, Codable {
     init(
         id: UUID = UUID(),
         name: String = "New Challenge",
+        theme: String = "",
         roleInLearningJourney: String = "",
         targetLearners: String = "",
         duration: String = "",
@@ -56,6 +58,7 @@ struct Project: Identifiable, Codable {
     ) {
         self.id = id
         self.name = name
+        self.theme = theme
         self.roleInLearningJourney = roleInLearningJourney
         self.targetLearners = targetLearners
         self.duration = duration
@@ -83,7 +86,7 @@ struct Project: Identifiable, Codable {
     // MARK: - Codable migration
 
     enum CodingKeys: String, CodingKey {
-        case id, name, targetLearners, duration, overallSuccessCriteria
+        case id, name, theme, targetLearners, duration, overallSuccessCriteria
         case roleInLearningJourney
         case workingDays, holidays, participationModel, startDate, endDate
         case challengeType, regulationModel
@@ -100,6 +103,7 @@ struct Project: Identifiable, Codable {
 
         id                   = try c.decode(UUID.self, forKey: .id)
         name                 = try c.decodeIfPresent(String.self, forKey: .name) ?? "New Challenge"
+        theme                = try c.decodeIfPresent(String.self, forKey: .theme) ?? ""
         targetLearners       = try c.decodeIfPresent(String.self, forKey: .targetLearners) ?? ""
         duration             = try c.decodeIfPresent(String.self, forKey: .duration) ?? ""
         overallSuccessCriteria = try c.decodeIfPresent(String.self, forKey: .overallSuccessCriteria) ?? ""
@@ -136,6 +140,7 @@ struct Project: Identifiable, Codable {
         var c = encoder.container(keyedBy: CodingKeys.self)
         try c.encode(id, forKey: .id)
         try c.encode(name, forKey: .name)
+        try c.encode(theme, forKey: .theme)
         try c.encode(roleInLearningJourney, forKey: .roleInLearningJourney)
         try c.encode(targetLearners, forKey: .targetLearners)
         try c.encode(duration, forKey: .duration)

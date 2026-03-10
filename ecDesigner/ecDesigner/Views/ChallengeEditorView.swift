@@ -10,6 +10,7 @@ private struct ChallengeField {
 // "workingDays" is embedded inside "dates" (auto-calculated). "targetLearners" removed from UI.
 private let allChallengeFields: [ChallengeField] = [
     ChallengeField(id: "name",                   label: "Challenge Name",               icon: "star.fill",           iconColor: .blue),
+    ChallengeField(id: "theme",                  label: "Theme",                        icon: "sparkles",            iconColor: .pink),
     ChallengeField(id: "dates",                  label: "Start & End Dates",            icon: "calendar",            iconColor: .orange),
     ChallengeField(id: "challengeType",          label: "Challenge Type",               icon: "tag.fill",            iconColor: .indigo),
     ChallengeField(id: "participationModel",     label: "Model of Participation",       icon: "person.2.fill",       iconColor: .purple),
@@ -62,6 +63,7 @@ struct ChallengeEditorView: View {
     private var hasChanges: Bool {
         guard let initial = initialProject else { return false }
         return project.name != initial.name ||
+               project.theme != initial.theme ||
                project.roleInLearningJourney != initial.roleInLearningJourney ||
                project.overallSuccessCriteria != initial.overallSuccessCriteria ||
                project.workingDays != initial.workingDays ||
@@ -147,6 +149,7 @@ struct ChallengeEditorView: View {
         .onAppear {
             initialProject = project
             if !project.name.isEmpty                    { addedFields.insert("name") }
+            if !project.theme.isEmpty                   { addedFields.insert("theme") }
             if project.startDate != nil || project.endDate != nil { addedFields.insert("dates") }
             if project.challengeType != nil             { addedFields.insert("challengeType") }
             if project.participationModel != nil        { addedFields.insert("participationModel") }
@@ -485,6 +488,11 @@ struct ChallengeEditorView: View {
         switch field.id {
         case "name":
             TextField("Enter challenge name", text: $project.name)
+                .font(.system(size: 14 * fontScale))
+                .textFieldStyle(.roundedBorder)
+
+        case "theme":
+            TextField("Enter challenge theme", text: $project.theme)
                 .font(.system(size: 14 * fontScale))
                 .textFieldStyle(.roundedBorder)
 
@@ -1055,6 +1063,7 @@ struct ChallengeEditorView: View {
         withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.82)) { addedFields.remove(id) }
         switch id {
         case "name":                   project.name = ""
+        case "theme":                  project.theme = ""
         case "dates":
             project.startDate = nil
             project.endDate = nil
