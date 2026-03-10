@@ -10,7 +10,6 @@ private struct ChallengeField {
 // "workingDays" is embedded inside "dates" (auto-calculated). "targetLearners" removed from UI.
 private let allChallengeFields: [ChallengeField] = [
     ChallengeField(id: "name",                   label: "Challenge Name",               icon: "star.fill",           iconColor: .blue),
-    ChallengeField(id: "theme",                  label: "Theme",                        icon: "sparkles",            iconColor: .pink),
     ChallengeField(id: "dates",                  label: "Start & End Dates",            icon: "calendar",            iconColor: .orange),
     ChallengeField(id: "challengeType",          label: "Challenge Type",               icon: "tag.fill",            iconColor: .indigo),
     ChallengeField(id: "participationModel",     label: "Model of Participation",       icon: "person.2.fill",       iconColor: .purple),
@@ -148,8 +147,7 @@ struct ChallengeEditorView: View {
         .frame(width: 580, height: 720)
         .onAppear {
             initialProject = project
-            if !project.name.isEmpty                    { addedFields.insert("name") }
-            if !project.theme.isEmpty                   { addedFields.insert("theme") }
+            if !project.name.isEmpty || !project.theme.isEmpty { addedFields.insert("name") }
             if project.startDate != nil || project.endDate != nil { addedFields.insert("dates") }
             if project.challengeType != nil             { addedFields.insert("challengeType") }
             if project.participationModel != nil        { addedFields.insert("participationModel") }
@@ -487,14 +485,23 @@ struct ChallengeEditorView: View {
     private func fieldEditor(for field: ChallengeField) -> some View {
         switch field.id {
         case "name":
-            TextField("Enter challenge name", text: $project.name)
-                .font(.system(size: 14 * fontScale))
-                .textFieldStyle(.roundedBorder)
-
-        case "theme":
-            TextField("Enter challenge theme", text: $project.theme)
-                .font(.system(size: 14 * fontScale))
-                .textFieldStyle(.roundedBorder)
+            VStack(alignment: .leading, spacing: 8) {
+                TextField("Enter challenge name", text: $project.name)
+                    .font(.system(size: 14 * fontScale))
+                    .textFieldStyle(.roundedBorder)
+                HStack(spacing: 6) {
+                    Image(systemName: "sparkles")
+                        .font(.system(size: 11 * fontScale))
+                        .foregroundColor(.pink)
+                    Text("Theme")
+                        .font(.system(size: 11 * fontScale, weight: .semibold))
+                        .foregroundColor(.pink)
+                }
+                .padding(.top, 4)
+                TextField("Enter challenge theme", text: $project.theme)
+                    .font(.system(size: 14 * fontScale))
+                    .textFieldStyle(.roundedBorder)
+            }
 
         case "dates":
             datesEditor
@@ -1062,8 +1069,7 @@ struct ChallengeEditorView: View {
     private func removeField(_ id: String) {
         withAnimation(Animation.spring(response: 0.3, dampingFraction: 0.82)) { addedFields.remove(id) }
         switch id {
-        case "name":                   project.name = ""
-        case "theme":                  project.theme = ""
+        case "name":                   project.name = ""; project.theme = ""
         case "dates":
             project.startDate = nil
             project.endDate = nil
