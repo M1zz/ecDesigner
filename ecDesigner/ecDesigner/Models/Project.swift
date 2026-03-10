@@ -20,6 +20,10 @@ struct Project: Identifiable, Codable {
     var mentoringOrganizationOther: String?       // explanation for other option
     var mentoringFocus: [String]            // selected focus area IDs
     var mentoringFocusOther: String?        // free text for Other/Notes
+    // Expectations, Constraints, Stakes
+    var expectations: [String]
+    var constraints: [String]
+    var stakes: [String]
     var exploratoryCycle: ExploratoryCycle
     var createdDate: Date
     var modifiedDate: Date
@@ -43,6 +47,9 @@ struct Project: Identifiable, Codable {
         mentoringOrganizationOther: String? = nil,
         mentoringFocus: [String] = [],
         mentoringFocusOther: String? = nil,
+        expectations: [String] = [],
+        constraints: [String] = [],
+        stakes: [String] = [],
         exploratoryCycle: ExploratoryCycle = ExploratoryCycle(),
         createdDate: Date = Date(),
         modifiedDate: Date = Date()
@@ -65,6 +72,9 @@ struct Project: Identifiable, Codable {
         self.mentoringOrganizationOther = mentoringOrganizationOther
         self.mentoringFocus = mentoringFocus
         self.mentoringFocusOther = mentoringFocusOther
+        self.expectations = expectations
+        self.constraints = constraints
+        self.stakes = stakes
         self.exploratoryCycle = exploratoryCycle
         self.createdDate = createdDate
         self.modifiedDate = modifiedDate
@@ -79,6 +89,7 @@ struct Project: Identifiable, Codable {
         case challengeType, regulationModel
         case mentoringOrganization, mentoringOrganizationTeamCount, mentoringOrganizationOther
         case mentoringFocus, mentoringFocusOther
+        case expectations, constraints, stakes
         case exploratoryCycle, createdDate, modifiedDate
         // Legacy keys
         case challengeStatement
@@ -104,6 +115,9 @@ struct Project: Identifiable, Codable {
         mentoringOrganizationOther     = try c.decodeIfPresent(String.self, forKey: .mentoringOrganizationOther)
         mentoringFocus       = try c.decodeIfPresent([String].self, forKey: .mentoringFocus) ?? []
         mentoringFocusOther  = try c.decodeIfPresent(String.self, forKey: .mentoringFocusOther)
+        expectations         = try c.decodeIfPresent([String].self, forKey: .expectations) ?? []
+        constraints          = try c.decodeIfPresent([String].self, forKey: .constraints) ?? []
+        stakes               = try c.decodeIfPresent([String].self, forKey: .stakes) ?? []
         exploratoryCycle     = try c.decodeIfPresent(ExploratoryCycle.self, forKey: .exploratoryCycle) ?? ExploratoryCycle()
         createdDate          = try c.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
         modifiedDate         = try c.decodeIfPresent(Date.self, forKey: .modifiedDate) ?? Date()
@@ -138,6 +152,9 @@ struct Project: Identifiable, Codable {
         try c.encodeIfPresent(mentoringOrganizationOther, forKey: .mentoringOrganizationOther)
         try c.encode(mentoringFocus, forKey: .mentoringFocus)
         try c.encodeIfPresent(mentoringFocusOther, forKey: .mentoringFocusOther)
+        try c.encode(expectations, forKey: .expectations)
+        try c.encode(constraints, forKey: .constraints)
+        try c.encode(stakes, forKey: .stakes)
         try c.encode(exploratoryCycle, forKey: .exploratoryCycle)
         try c.encode(createdDate, forKey: .createdDate)
         try c.encode(modifiedDate, forKey: .modifiedDate)

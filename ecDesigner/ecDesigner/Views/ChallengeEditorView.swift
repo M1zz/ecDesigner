@@ -16,6 +16,7 @@ private let allChallengeFields: [ChallengeField] = [
     ChallengeField(id: "regulationModel",        label: "Regulation Model",             icon: "dial.medium.fill",    iconColor: .teal),
     ChallengeField(id: "roleInLearningJourney",  label: "Role in the Learning Journey", icon: "map.fill",            iconColor: .yellow),
     ChallengeField(id: "mentoring",              label: "Mentoring",                    icon: "person.fill.badge.plus", iconColor: .purple),
+    ChallengeField(id: "ecs",                    label: "Expectations, Constraints & Stakes", icon: "exclamationmark.triangle.fill", iconColor: .red),
     ChallengeField(id: "overallSuccessCriteria", label: "Overall Success Criteria",     icon: "checkmark.seal.fill", iconColor: .green),
 ]
 
@@ -74,7 +75,10 @@ struct ChallengeEditorView: View {
                project.mentoringOrganizationTeamCount != initial.mentoringOrganizationTeamCount ||
                project.mentoringOrganizationOther != initial.mentoringOrganizationOther ||
                project.mentoringFocus != initial.mentoringFocus ||
-               project.mentoringFocusOther != initial.mentoringFocusOther
+               project.mentoringFocusOther != initial.mentoringFocusOther ||
+               project.expectations != initial.expectations ||
+               project.constraints != initial.constraints ||
+               project.stakes != initial.stakes
     }
 
     private var visibleFields: [ChallengeField] {
@@ -150,6 +154,9 @@ struct ChallengeEditorView: View {
             if !project.roleInLearningJourney.isEmpty   { addedFields.insert("roleInLearningJourney") }
             if project.mentoringOrganization != nil || !project.mentoringFocus.isEmpty {
                 addedFields.insert("mentoring")
+            }
+            if !project.expectations.isEmpty || !project.constraints.isEmpty || !project.stakes.isEmpty {
+                addedFields.insert("ecs")
             }
             if !project.overallSuccessCriteria.isEmpty  { addedFields.insert("overallSuccessCriteria") }
         }
@@ -503,6 +510,9 @@ struct ChallengeEditorView: View {
 
         case "mentoring":
             mentoringEditor
+
+        case "ecs":
+            ecsEditor
 
         case "overallSuccessCriteria":
             TextEditor(text: $project.overallSuccessCriteria)
@@ -898,6 +908,97 @@ struct ChallengeEditorView: View {
         .buttonStyle(.plain)
     }
 
+    // MARK: - Expectations, Constraints & Stakes Editor
+
+    @ViewBuilder
+    private var ecsEditor: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Describe any specific inclusions or exclusions for this Challenge. Also what the stakes are for Learners.")
+                .font(.system(size: 11 * fontScale))
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            ecsSection(
+                title: "Expectations",
+                description: "What needs to be included in the Solution? This can tie to the Success Criteria.",
+                placeholder: "e.g. Learn the basic CBL cycle and use it to find solutions.",
+                items: $project.expectations,
+                accentColor: .blue
+            )
+
+            Divider()
+
+            ecsSection(
+                title: "Constraints",
+                description: "What should they not include or try to do in the Challenge?",
+                placeholder: "e.g. No Internet – prototyping with mock data is OK.",
+                items: $project.constraints,
+                accentColor: .orange
+            )
+
+            Divider()
+
+            ecsSection(
+                title: "Stakes",
+                description: "What are the risks? Who will they be presenting to? What is the expectation for the presentation?",
+                placeholder: "e.g. Present apps and processes to members of other teams.",
+                items: $project.stakes,
+                accentColor: .red
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func ecsSection(
+        title: String,
+        description: String,
+        placeholder: String,
+        items: Binding<[String]>,
+        accentColor: Color
+    ) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title)
+                    .font(.system(size: 13 * fontScale, weight: .semibold))
+                    .foregroundColor(.primary)
+                Text(description)
+                    .font(.system(size: 11 * fontScale))
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            ForEach(items.wrappedValue.indices, id: \.self) { idx in
+                HStack(alignment: .center, spacing: 8) {
+                    Image(systemName: "circle.fill")
+                        .font(.system(size: 5 * fontScale))
+                        .foregroundColor(accentColor)
+
+                    TextField(placeholder, text: Binding(
+                        get: { items.wrappedValue[idx] },
+                        set: { items.wrappedValue[idx] = $0 }
+                    ))
+                    .font(.system(size: 13 * fontScale))
+                    .textFieldStyle(.roundedBorder)
+
+                    Button(action: { items.wrappedValue.remove(at: idx) }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.system(size: 14 * fontScale))
+                            .foregroundColor(.secondary.opacity(0.4))
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+
+            Button(action: { items.wrappedValue.append("") }) {
+                Label("Add item", systemImage: "plus.circle.fill")
+                    .font(.system(size: 12 * fontScale, weight: .medium))
+                    .foregroundColor(accentColor)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 2)
+        }
+    }
+
     private func mentoringOptionBg(isSelected: Bool) -> some View {
         RoundedRectangle(cornerRadius: 8)
             .fill(isSelected ? Color.purple.opacity(0.07) : Color.gray.opacity(0.04))
@@ -924,6 +1025,10 @@ struct ChallengeEditorView: View {
             project.mentoringOrganizationOther = nil
             project.mentoringFocus = []
             project.mentoringFocusOther = nil
+        case "ecs":
+            project.expectations = []
+            project.constraints = []
+            project.stakes = []
         case "overallSuccessCriteria": project.overallSuccessCriteria = ""
         default: break
         }
