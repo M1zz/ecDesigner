@@ -8,6 +8,7 @@ struct Project: Identifiable, Codable {
     var duration: String
     var overallSuccessCriteria: String
     var workingDays: Int?
+    var holidays: [Date]
     var participationModel: ParticipationModel?
     var startDate: Date?
     var endDate: Date?
@@ -25,6 +26,7 @@ struct Project: Identifiable, Codable {
         duration: String = "",
         overallSuccessCriteria: String = "",
         workingDays: Int? = nil,
+        holidays: [Date] = [],
         participationModel: ParticipationModel? = nil,
         startDate: Date? = nil,
         endDate: Date? = nil,
@@ -41,6 +43,7 @@ struct Project: Identifiable, Codable {
         self.duration = duration
         self.overallSuccessCriteria = overallSuccessCriteria
         self.workingDays = workingDays
+        self.holidays = holidays
         self.participationModel = participationModel
         self.startDate = startDate
         self.endDate = endDate
@@ -57,7 +60,7 @@ struct Project: Identifiable, Codable {
     enum CodingKeys: String, CodingKey {
         case id, name, targetLearners, duration, overallSuccessCriteria
         case roleInLearningJourney
-        case workingDays, participationModel, startDate, endDate
+        case workingDays, holidays, participationModel, startDate, endDate
         case challengeType, regulationModel
         case exploratoryCycle, createdDate, modifiedDate
         // Legacy keys (old field names)
@@ -73,6 +76,7 @@ struct Project: Identifiable, Codable {
         duration             = try c.decodeIfPresent(String.self, forKey: .duration) ?? ""
         overallSuccessCriteria = try c.decodeIfPresent(String.self, forKey: .overallSuccessCriteria) ?? ""
         workingDays          = try c.decodeIfPresent(Int.self, forKey: .workingDays)
+        holidays             = try c.decodeIfPresent([Date].self, forKey: .holidays) ?? []
         participationModel   = try c.decodeIfPresent(ParticipationModel.self, forKey: .participationModel)
         startDate            = try c.decodeIfPresent(Date.self, forKey: .startDate)
         endDate              = try c.decodeIfPresent(Date.self, forKey: .endDate)
@@ -102,6 +106,7 @@ struct Project: Identifiable, Codable {
         try c.encode(duration, forKey: .duration)
         try c.encode(overallSuccessCriteria, forKey: .overallSuccessCriteria)
         try c.encodeIfPresent(workingDays, forKey: .workingDays)
+        try c.encode(holidays, forKey: .holidays)
         try c.encodeIfPresent(participationModel, forKey: .participationModel)
         try c.encodeIfPresent(startDate, forKey: .startDate)
         try c.encodeIfPresent(endDate, forKey: .endDate)

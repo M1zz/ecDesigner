@@ -4,6 +4,7 @@ struct CanvasView: View {
     @ObservedObject var viewModel: CanvasViewModel
     let onNodeEdit: (ECNode) -> Void
     let onMilestoneEdit: (Milestone) -> Void
+    let onEditChallenge: () -> Void
     @State private var mouseLocation: CGPoint = .zero
     @State private var isPanning: Bool = false
     @State private var panStartOffset: CGSize = .zero
@@ -254,9 +255,7 @@ struct CanvasView: View {
         ChallengeInfoCardView(
             project: viewModel.currentProject,
             fontScale: viewModel.fontScale,
-            onEdit: {
-                // This will be handled by parent ContentView
-            }
+            onEdit: onEditChallenge
         )
         .position(
             x: challengePosition.x + viewModel.canvasOffset.width,
@@ -555,12 +554,19 @@ struct CanvasView: View {
     // MARK: - Event Handlers
     private func setupScrollEventMonitor() {
         scrollEventMonitor = NSEvent.addLocalMonitorForEvents(matching: .scrollWheel) { event in
-            // 이벤트가 메인 캔버스 창에서 발생한 경우만 처리
-            // 에디터 팝업 등 다른 창에서 발생한 이벤트는 그대로 통과
-            guard event.window == NSApp.mainWindow else { return event }
+            // 별도 NSWindow 에디터 팝업 → 그대로 통과
+            if event.window?.identifier == NSUserInterfaceItemIdentifier("ecDesigner.editorWindow") {
+                return event
+            }
+            // 어느 창이든 sheet가 열려있으면 (챌린지 편집 등) → sheet 스크롤 허용
+            if NSApp.windows.contains(where: { !$0.sheets.isEmpty }) {
+                return event
+            }
 
-            // 트랙패드 두 손가락 스와이프 (phase 기반)
-            if event.phase == .began || event.phase == .changed {
+            // 트랙패드 두 손가락 스와이프 + 관성 스크롤
+            let isTrackpadScroll = event.phase == .began || event.phase == .changed
+            let isMomentum = event.momentumPhase == .began || event.momentumPhase == .changed
+            if isTrackpadScroll || isMomentum {
                 let deltaX = event.hasPreciseScrollingDeltas ? event.scrollingDeltaX : event.scrollingDeltaX * 3
                 let deltaY = event.hasPreciseScrollingDeltas ? event.scrollingDeltaY : event.scrollingDeltaY * 3
                 viewModel.canvasOffset = CGSize(
@@ -617,9 +623,8 @@ struct ChallengeInfoCardView: View {
                 .foregroundColor(.primary)
                 .lineLimit(2)
 
-            // Challenge Statement (if available)
-            if !project.challengeStatement.isEmpty {
-                Text(project.challengeStatement)
+            if !project.roleInLearningJourney.isEmpty {
+                Text(project.roleInLearningJourney)
                     .font(.system(size: 12 * fontScale))
                     .foregroundColor(.secondary)
                     .lineLimit(3)
