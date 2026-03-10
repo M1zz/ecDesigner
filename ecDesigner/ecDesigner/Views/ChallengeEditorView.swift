@@ -7,7 +7,7 @@ private struct ChallengeField {
     let iconColor: Color
 }
 
-// "workingDays" is now embedded inside the "dates" field (auto-calculated)
+// "workingDays" is embedded inside "dates" (auto-calculated). "targetLearners" removed from UI.
 private let allChallengeFields: [ChallengeField] = [
     ChallengeField(id: "name",                   label: "Challenge Name",               icon: "star.fill",           iconColor: .blue),
     ChallengeField(id: "dates",                  label: "Start & End Dates",            icon: "calendar",            iconColor: .orange),
@@ -15,8 +15,17 @@ private let allChallengeFields: [ChallengeField] = [
     ChallengeField(id: "participationModel",     label: "Model of Participation",       icon: "person.2.fill",       iconColor: .purple),
     ChallengeField(id: "regulationModel",        label: "Regulation Model",             icon: "dial.medium.fill",    iconColor: .teal),
     ChallengeField(id: "roleInLearningJourney",  label: "Role in the Learning Journey", icon: "map.fill",            iconColor: .yellow),
-    ChallengeField(id: "targetLearners",         label: "Target Learners",              icon: "person.3.fill",       iconColor: .green),
+    ChallengeField(id: "mentoring",              label: "Mentoring",                    icon: "person.fill.badge.plus", iconColor: .purple),
     ChallengeField(id: "overallSuccessCriteria", label: "Overall Success Criteria",     icon: "checkmark.seal.fill", iconColor: .green),
+]
+
+private let mentoringFocusOptions: [(id: String, label: String)] = [
+    ("groupDynamics",    "Group dynamics and decision making"),
+    ("coreKnowledge",    "Learning Core knowledge and skills"),
+    ("challengeProcess", "The Challenge process and CBL"),
+    ("depthOfLearning",  "The depth and quality of learning"),
+    ("industryProcess",  "The use of specific industry processes (E.G., Agile)"),
+    ("productQuality",   "The quality and viability of the Product"),
 ]
 
 private let challengeTypeOptions: [(value: String, description: String)] = [
@@ -53,7 +62,6 @@ struct ChallengeEditorView: View {
         guard let initial = initialProject else { return false }
         return project.name != initial.name ||
                project.roleInLearningJourney != initial.roleInLearningJourney ||
-               project.targetLearners != initial.targetLearners ||
                project.overallSuccessCriteria != initial.overallSuccessCriteria ||
                project.workingDays != initial.workingDays ||
                project.holidays != initial.holidays ||
@@ -61,7 +69,12 @@ struct ChallengeEditorView: View {
                project.startDate != initial.startDate ||
                project.endDate != initial.endDate ||
                project.challengeType != initial.challengeType ||
-               project.regulationModel != initial.regulationModel
+               project.regulationModel != initial.regulationModel ||
+               project.mentoringOrganization != initial.mentoringOrganization ||
+               project.mentoringOrganizationTeamCount != initial.mentoringOrganizationTeamCount ||
+               project.mentoringOrganizationOther != initial.mentoringOrganizationOther ||
+               project.mentoringFocus != initial.mentoringFocus ||
+               project.mentoringFocusOther != initial.mentoringFocusOther
     }
 
     private var visibleFields: [ChallengeField] {
@@ -135,7 +148,9 @@ struct ChallengeEditorView: View {
             if project.participationModel != nil        { addedFields.insert("participationModel") }
             if project.regulationModel != nil           { addedFields.insert("regulationModel") }
             if !project.roleInLearningJourney.isEmpty   { addedFields.insert("roleInLearningJourney") }
-            if !project.targetLearners.isEmpty          { addedFields.insert("targetLearners") }
+            if project.mentoringOrganization != nil || !project.mentoringFocus.isEmpty {
+                addedFields.insert("mentoring")
+            }
             if !project.overallSuccessCriteria.isEmpty  { addedFields.insert("overallSuccessCriteria") }
         }
         .alert("Unsaved Changes", isPresented: $showCancelConfirmation) {
@@ -486,11 +501,8 @@ struct ChallengeEditorView: View {
                     .border(Color.yellow.opacity(0.3), width: 1)
             }
 
-        case "targetLearners":
-            TextEditor(text: $project.targetLearners)
-                .font(.system(size: 14 * fontScale))
-                .frame(minHeight: 70)
-                .border(Color.green.opacity(0.2), width: 1)
+        case "mentoring":
+            mentoringEditor
 
         case "overallSuccessCriteria":
             TextEditor(text: $project.overallSuccessCriteria)
@@ -711,6 +723,188 @@ struct ChallengeEditorView: View {
         }
     }
 
+    // MARK: - Mentoring Editor
+
+    @ViewBuilder
+    private var mentoringEditor: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Describe the structure and focus of the mentoring during the Challenge.")
+                .font(.system(size: 11 * fontScale))
+                .foregroundColor(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            // Mentoring Organization
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Mentoring Organization")
+                    .font(.system(size: 12 * fontScale, weight: .semibold))
+                    .foregroundColor(.primary)
+                Text("How will the teams be supported?")
+                    .font(.system(size: 11 * fontScale))
+                    .foregroundColor(.secondary)
+
+                mentoringOrgRow(
+                    key: "oneMentor",
+                    label: "One Mentor per group",
+                    accentColor: .purple
+                )
+                mentoringOrgRow(
+                    key: "twoMentors",
+                    label: "2 Mentors per group. Each mentor group will have 2–3 teams.",
+                    accentColor: .purple
+                )
+                mentoringOrgRow(
+                    key: "other",
+                    label: "Other – please explain.",
+                    accentColor: .purple
+                )
+            }
+
+            Divider()
+
+            // Mentoring Focus
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Mentoring Focus")
+                    .font(.system(size: 12 * fontScale, weight: .semibold))
+                    .foregroundColor(.primary)
+                Text("What will the mentors' primary focus during this Challenge?")
+                    .font(.system(size: 11 * fontScale))
+                    .foregroundColor(.secondary)
+
+                ForEach(mentoringFocusOptions, id: \.id) { option in
+                    mentoringFocusRow(option: option)
+                }
+
+                // Other / Notes
+                let hasOther = project.mentoringFocus.contains("other")
+                Button(action: {
+                    if hasOther {
+                        project.mentoringFocus.removeAll { $0 == "other" }
+                        project.mentoringFocusOther = nil
+                    } else {
+                        project.mentoringFocus.append("other")
+                    }
+                }) {
+                    HStack(alignment: .top, spacing: 10) {
+                        Image(systemName: hasOther ? "checkmark.square.fill" : "square")
+                            .font(.system(size: 16 * fontScale))
+                            .foregroundColor(hasOther ? .purple : .secondary)
+                            .padding(.top, 1)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Other / Notes")
+                                .font(.system(size: 13 * fontScale, weight: .semibold))
+                                .foregroundColor(.primary)
+                            if hasOther {
+                                TextField("Add notes...", text: Binding(
+                                    get: { project.mentoringFocusOther ?? "" },
+                                    set: { project.mentoringFocusOther = $0.isEmpty ? nil : $0 }
+                                ))
+                                .font(.system(size: 13 * fontScale))
+                                .textFieldStyle(.roundedBorder)
+                                .onTapGesture { } // prevent button swallow
+                            }
+                        }
+                        Spacer()
+                    }
+                    .padding(10)
+                    .background(mentoringOptionBg(isSelected: hasOther))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func mentoringOrgRow(key: String, label: String, accentColor: Color) -> some View {
+        let isSelected = project.mentoringOrganization == key
+        Button(action: { project.mentoringOrganization = isSelected ? nil : key }) {
+            HStack(alignment: .top, spacing: 10) {
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.system(size: 16 * fontScale))
+                    .foregroundColor(isSelected ? accentColor : .secondary)
+                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 6) {
+                    if key == "oneMentor" {
+                        // Inline fill-in field for team count
+                        HStack(spacing: 4) {
+                            Text("One Mentor per group. Each mentor will have")
+                                .font(.system(size: 13 * fontScale, weight: isSelected ? .semibold : .regular))
+                                .foregroundColor(.primary)
+                            TextField("N", text: Binding(
+                                get: { project.mentoringOrganizationTeamCount ?? "" },
+                                set: { project.mentoringOrganizationTeamCount = $0.isEmpty ? nil : $0 }
+                            ))
+                            .font(.system(size: 13 * fontScale, weight: .semibold))
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 40)
+                            .onTapGesture {
+                                if !isSelected { project.mentoringOrganization = key }
+                            }
+                            Text("teams.")
+                                .font(.system(size: 13 * fontScale, weight: isSelected ? .semibold : .regular))
+                                .foregroundColor(.primary)
+                        }
+                        .fixedSize(horizontal: false, vertical: true)
+                    } else if key == "other" {
+                        Text(label)
+                            .font(.system(size: 13 * fontScale, weight: isSelected ? .semibold : .regular))
+                            .foregroundColor(.primary)
+                        if isSelected {
+                            TextField("Please explain...", text: Binding(
+                                get: { project.mentoringOrganizationOther ?? "" },
+                                set: { project.mentoringOrganizationOther = $0.isEmpty ? nil : $0 }
+                            ))
+                            .font(.system(size: 13 * fontScale))
+                            .textFieldStyle(.roundedBorder)
+                            .onTapGesture { }
+                        }
+                    } else {
+                        Text(label)
+                            .font(.system(size: 13 * fontScale, weight: isSelected ? .semibold : .regular))
+                            .foregroundColor(.primary)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                }
+                Spacer()
+            }
+            .padding(10)
+            .background(mentoringOptionBg(isSelected: isSelected))
+        }
+        .buttonStyle(.plain)
+    }
+
+    @ViewBuilder
+    private func mentoringFocusRow(option: (id: String, label: String)) -> some View {
+        let isSelected = project.mentoringFocus.contains(option.id)
+        Button(action: {
+            if isSelected {
+                project.mentoringFocus.removeAll { $0 == option.id }
+            } else {
+                project.mentoringFocus.append(option.id)
+            }
+        }) {
+            HStack(spacing: 10) {
+                Image(systemName: isSelected ? "checkmark.square.fill" : "square")
+                    .font(.system(size: 16 * fontScale))
+                    .foregroundColor(isSelected ? .purple : .secondary)
+                Text(option.label)
+                    .font(.system(size: 13 * fontScale, weight: isSelected ? .semibold : .regular))
+                    .foregroundColor(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer()
+            }
+            .padding(10)
+            .background(mentoringOptionBg(isSelected: isSelected))
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func mentoringOptionBg(isSelected: Bool) -> some View {
+        RoundedRectangle(cornerRadius: 8)
+            .fill(isSelected ? Color.purple.opacity(0.07) : Color.gray.opacity(0.04))
+            .overlay(RoundedRectangle(cornerRadius: 8)
+                .stroke(isSelected ? Color.purple.opacity(0.3) : Color.gray.opacity(0.1), lineWidth: 1))
+    }
+
     private func removeField(_ id: String) {
         withAnimation { addedFields.remove(id) }
         switch id {
@@ -724,7 +918,12 @@ struct ChallengeEditorView: View {
         case "participationModel":     project.participationModel = nil
         case "regulationModel":        project.regulationModel = nil
         case "roleInLearningJourney":  project.roleInLearningJourney = ""
-        case "targetLearners":         project.targetLearners = ""
+        case "mentoring":
+            project.mentoringOrganization = nil
+            project.mentoringOrganizationTeamCount = nil
+            project.mentoringOrganizationOther = nil
+            project.mentoringFocus = []
+            project.mentoringFocusOther = nil
         case "overallSuccessCriteria": project.overallSuccessCriteria = ""
         default: break
         }

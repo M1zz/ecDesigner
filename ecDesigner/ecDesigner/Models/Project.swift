@@ -4,7 +4,7 @@ struct Project: Identifiable, Codable {
     let id: UUID
     var name: String
     var roleInLearningJourney: String
-    var targetLearners: String
+    var targetLearners: String      // kept for backward compat, no longer shown in UI
     var duration: String
     var overallSuccessCriteria: String
     var workingDays: Int?
@@ -14,6 +14,12 @@ struct Project: Identifiable, Codable {
     var endDate: Date?
     var challengeType: String?
     var regulationModel: String?
+    // Mentoring
+    var mentoringOrganization: String?      // "oneMentor" | "twoMentors" | "other"
+    var mentoringOrganizationTeamCount: String?   // fill-in for oneMentor option
+    var mentoringOrganizationOther: String?       // explanation for other option
+    var mentoringFocus: [String]            // selected focus area IDs
+    var mentoringFocusOther: String?        // free text for Other/Notes
     var exploratoryCycle: ExploratoryCycle
     var createdDate: Date
     var modifiedDate: Date
@@ -32,6 +38,11 @@ struct Project: Identifiable, Codable {
         endDate: Date? = nil,
         challengeType: String? = nil,
         regulationModel: String? = nil,
+        mentoringOrganization: String? = nil,
+        mentoringOrganizationTeamCount: String? = nil,
+        mentoringOrganizationOther: String? = nil,
+        mentoringFocus: [String] = [],
+        mentoringFocusOther: String? = nil,
         exploratoryCycle: ExploratoryCycle = ExploratoryCycle(),
         createdDate: Date = Date(),
         modifiedDate: Date = Date()
@@ -49,22 +60,28 @@ struct Project: Identifiable, Codable {
         self.endDate = endDate
         self.challengeType = challengeType
         self.regulationModel = regulationModel
+        self.mentoringOrganization = mentoringOrganization
+        self.mentoringOrganizationTeamCount = mentoringOrganizationTeamCount
+        self.mentoringOrganizationOther = mentoringOrganizationOther
+        self.mentoringFocus = mentoringFocus
+        self.mentoringFocusOther = mentoringFocusOther
         self.exploratoryCycle = exploratoryCycle
         self.createdDate = createdDate
         self.modifiedDate = modifiedDate
     }
 
     // MARK: - Codable migration
-    // Handles backward compatibility when model fields are renamed or added
 
     enum CodingKeys: String, CodingKey {
         case id, name, targetLearners, duration, overallSuccessCriteria
         case roleInLearningJourney
         case workingDays, holidays, participationModel, startDate, endDate
         case challengeType, regulationModel
+        case mentoringOrganization, mentoringOrganizationTeamCount, mentoringOrganizationOther
+        case mentoringFocus, mentoringFocusOther
         case exploratoryCycle, createdDate, modifiedDate
-        // Legacy keys (old field names)
-        case challengeStatement   // was renamed to roleInLearningJourney
+        // Legacy keys
+        case challengeStatement
     }
 
     init(from decoder: Decoder) throws {
@@ -82,6 +99,11 @@ struct Project: Identifiable, Codable {
         endDate              = try c.decodeIfPresent(Date.self, forKey: .endDate)
         challengeType        = try c.decodeIfPresent(String.self, forKey: .challengeType)
         regulationModel      = try c.decodeIfPresent(String.self, forKey: .regulationModel)
+        mentoringOrganization          = try c.decodeIfPresent(String.self, forKey: .mentoringOrganization)
+        mentoringOrganizationTeamCount = try c.decodeIfPresent(String.self, forKey: .mentoringOrganizationTeamCount)
+        mentoringOrganizationOther     = try c.decodeIfPresent(String.self, forKey: .mentoringOrganizationOther)
+        mentoringFocus       = try c.decodeIfPresent([String].self, forKey: .mentoringFocus) ?? []
+        mentoringFocusOther  = try c.decodeIfPresent(String.self, forKey: .mentoringFocusOther)
         exploratoryCycle     = try c.decodeIfPresent(ExploratoryCycle.self, forKey: .exploratoryCycle) ?? ExploratoryCycle()
         createdDate          = try c.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
         modifiedDate         = try c.decodeIfPresent(Date.self, forKey: .modifiedDate) ?? Date()
@@ -94,7 +116,6 @@ struct Project: Identifiable, Codable {
         } else {
             roleInLearningJourney = ""
         }
-        // Note: challengeDescription (old field) is intentionally ignored during decode
     }
 
     func encode(to encoder: Encoder) throws {
@@ -112,6 +133,11 @@ struct Project: Identifiable, Codable {
         try c.encodeIfPresent(endDate, forKey: .endDate)
         try c.encodeIfPresent(challengeType, forKey: .challengeType)
         try c.encodeIfPresent(regulationModel, forKey: .regulationModel)
+        try c.encodeIfPresent(mentoringOrganization, forKey: .mentoringOrganization)
+        try c.encodeIfPresent(mentoringOrganizationTeamCount, forKey: .mentoringOrganizationTeamCount)
+        try c.encodeIfPresent(mentoringOrganizationOther, forKey: .mentoringOrganizationOther)
+        try c.encode(mentoringFocus, forKey: .mentoringFocus)
+        try c.encodeIfPresent(mentoringFocusOther, forKey: .mentoringFocusOther)
         try c.encode(exploratoryCycle, forKey: .exploratoryCycle)
         try c.encode(createdDate, forKey: .createdDate)
         try c.encode(modifiedDate, forKey: .modifiedDate)
