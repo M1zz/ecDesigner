@@ -515,10 +515,16 @@ struct ChallengeEditorView: View {
             ecsEditor
 
         case "overallSuccessCriteria":
-            TextEditor(text: $project.overallSuccessCriteria)
-                .font(.system(size: 14 * fontScale))
-                .frame(minHeight: 80)
-                .border(Color.green.opacity(0.2), width: 1)
+            VStack(alignment: .leading, spacing: 6) {
+                Text("The parameters for successfully completing the Challenge. Describe what learners should know and be able to do by the end of the Challenge.")
+                    .font(.system(size: 11 * fontScale))
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                TextEditor(text: $project.overallSuccessCriteria)
+                    .font(.system(size: 14 * fontScale))
+                    .frame(minHeight: 80)
+                    .border(Color.green.opacity(0.2), width: 1)
+            }
 
         default:
             EmptyView()
